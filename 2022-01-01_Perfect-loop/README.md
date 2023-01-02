@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-For this piece I use the following package:
+For this piece I use the following packages:
 
 ``` r
 library(dplyr) # A Grammar of Data Manipulation
@@ -162,22 +162,6 @@ df_2 <- map2_dfr(r,
   mutate(id = id + max(df$id))
 ```
 
-``` r
-ggplot(mtcars, aes(factor(cyl), mpg)) + 
-  geom_boxplot() + 
-  # Here comes the gganimate code
-  transition_states(
-    gear,
-    transition_length = 2,
-    state_length = 1
-  ) +
-  enter_fade() + 
-  exit_shrink() +
-  ease_aes('sine-in-out')
-```
-
-![](README_files/figure-gfm/unnamed-chunk-12-1.gif)<!-- -->
-
 Animate:
 
 ``` r
@@ -292,7 +276,7 @@ animate(p,
         units = "in")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.gif)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-1.gif)<!-- -->
 
 Save animation:
 

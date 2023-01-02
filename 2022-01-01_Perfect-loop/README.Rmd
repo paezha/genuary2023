@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-For this piece I use the following package:
+For this piece I use the following packages:
 ```{r setup}
 library(dplyr) # A Grammar of Data Manipulation
 library(gganimate) # A Grammar of Animated Graphics 
@@ -141,22 +141,6 @@ df_2 <- map2_dfr(r,
                               id = (t:(length(a) + t - 1)) %% length(a))}) %>%
   mutate(id = id + max(df$id))
 ```
-
-
-```{r}
-ggplot(mtcars, aes(factor(cyl), mpg)) + 
-  geom_boxplot() + 
-  # Here comes the gganimate code
-  transition_states(
-    gear,
-    transition_length = 2,
-    state_length = 1
-  ) +
-  enter_fade() + 
-  exit_shrink() +
-  ease_aes('sine-in-out')
-```
-
 
 Animate:
 ```{r eval = FALSE}
