@@ -1,0 +1,106 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Made in ten minutes: Sol LeWitt's Boston Wall Drawing
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+To complete a piece in ten minutes I take a shortcut: instead of coming up with my own algorithm, I use Sol LeWitt's instructions for the wall drawing of the School of Boston Fine Art Museum:
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics("sol-lewitt-boston-wall-instructions.png")
+```
+<!--[](sol-lewitt-boston-wall-instructions.png)-->
+
+For this piece I use the following packages:
+```{r setup}
+library(dplyr) # A Grammar of Data Manipulation
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(glue) # Interpreted String Literals
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists 
+```
+
+## Set random seed
+
+```{r}
+seed <- sample.int(1000000000, 1)
+```
+
+## Fifty random points
+
+```{r}
+set.seed(seed)
+pts <- data.frame(id = 1:50, x = runif(50), y = runif(50))
+```
+
+## Connect the points
+
+```{r}
+df <- expand.grid(p1 = 1:50, p2 = 1:50)
+```
+
+```{r}
+df <- df |>
+  left_join(pts,
+            by = c("p1" = "id")) |>
+  rename(x_start = x,
+         y_start = y) |>
+  left_join(pts,
+            by = c("p2" = "id")) |>
+  rename(x_end = x,
+         y_end = y)
+```
+
+## Select color palette
+
+```{r}
+set.seed(seed)
+
+col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+
+col_palette <- mex.brewer(col_palette_name)
+
+clrs <- sample(col_palette, 3)
+```
+
+## Render the image
+
+```{r fig.show='hide'}
+ggplot(data = df) +
+  geom_segment(aes(x = x_start,
+                   y = y_start,
+                   xend = x_end,
+                   yend = y_end),
+               color = clrs[2],
+               alpha = 0.5,
+               size = 0.5) +
+  geom_point(data = pts,
+             aes(x,
+                 y),
+             color = clrs[1],
+             size = 5) +
+  coord_equal() +
+  theme_void() +
+  theme(plot.background = element_rect(fill = clrs[3],
+                                       color = NA))
+ggsave(filename = glue::glue("ten-minutes-{seed}.png"),
+       height = 7,
+       width = 7)
+```
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics(glue("ten-minutes-{seed}.png"))
+```
