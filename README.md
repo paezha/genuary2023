@@ -27,7 +27,7 @@ Coding Sol LeWitt’s wall drawing instructions in ten minutes.
 
 Glitching geometries.
 
-<img src="2022-01-03_Glitch-art/glitched-voronoi-46709552.png" width="500px" />
+<img src="2022-01-03_Glitch-Art/glitched-voronoi-46709552.png" width="500px" />
 
 ## Day 4: [Intersections](https://github.com/paezha/genuary2023/tree/master/2022-01-04_Intersections)
 

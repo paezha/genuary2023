@@ -42,7 +42,7 @@ Glitching geometries.
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics("2022-01-03_Glitch-art/glitched-voronoi-46709552.png")
+knitr::include_graphics("2022-01-03_Glitch-Art/glitched-voronoi-46709552.png")
 ```
 
 ## Day 4: [Intersections](https://github.com/paezha/genuary2023/tree/master/2022-01-04_Intersections)
