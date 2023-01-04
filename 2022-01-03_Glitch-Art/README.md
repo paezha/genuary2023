@@ -189,9 +189,9 @@ ggplot() +
   theme(legend.position = "none")
 
 # Save plot
-ggsave(filename = glue::glue("glitched-voronoi-{seed}.png"),
+ggsave(filename = glue::glue("outputs/glitched-voronoi-{seed}.png"),
        height = 7,
        width = 7)
 ```
 
-<img src="glitched-voronoi-78727773.png" width="500px" />
+<img src="outputs/glitched-voronoi-45352578.png" width="500px" />

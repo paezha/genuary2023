@@ -168,14 +168,14 @@ ggplot() +
   theme(legend.position = "none")
 
 # Save plot
-ggsave(filename = glue::glue("glitched-voronoi-{seed}.png"),
+ggsave(filename = glue::glue("outputs/glitched-voronoi-{seed}.png"),
        height = 7,
        width = 7)
 ```
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics(glue("glitched-voronoi-{seed}.png"))
+knitr::include_graphics(glue("outputs/glitched-voronoi-{seed}.png"))
 ```
 
 

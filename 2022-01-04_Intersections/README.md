@@ -171,10 +171,10 @@ if(sample(c(TRUE, FALSE), 1)){
 
 
 # Save plot
-ggsave(filename = glue::glue("transchromation-{seed}.png"),
+ggsave(filename = glue::glue("outputs/transchromation-{seed}.png"),
        #height = 7,
        width = 7)
 #> Saving 7 x 5 in image
 ```
 
-<img src="transchromation-43280904.png" width="500px" />
+<img src="outputs/transchromation-19682809.png" width="500px" />

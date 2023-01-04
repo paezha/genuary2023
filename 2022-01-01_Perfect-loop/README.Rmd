@@ -247,6 +247,6 @@ animate(p,
 
 Save animation:
 ```{r}
-anim_save(glue::glue("fiesta-t-{seed}.gif"))
+anim_save(glue::glue("outputs/fiesta-t-{seed}.gif"))
 ```
 

@@ -10,7 +10,7 @@ To complete a piece in ten minutes I take a shortcut: instead of coming
 up with my own algorithm, I use Sol LeWitt’s instructions for the wall
 drawing of the School of Boston Fine Art Museum:
 
-<img src="sol-lewitt-boston-wall-instructions.png" width="500px" />
+<img src="inputs/sol-lewitt-boston-wall-instructions.png" width="500px" />
 <!--[](sol-lewitt-boston-wall-instructions.png)-->
 
 For this piece I use the following packages:
@@ -83,7 +83,7 @@ ggplot(data = df) +
                    yend = y_end),
                color = clrs[2],
                alpha = 0.5,
-               size = 0.5) +
+               linewidth = 0.5) +
   geom_point(data = pts,
              aes(x,
                  y),
@@ -93,11 +93,9 @@ ggplot(data = df) +
   theme_void() +
   theme(plot.background = element_rect(fill = clrs[3],
                                        color = NA))
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` instead.
-ggsave(filename = glue::glue("ten-minutes-{seed}.png"),
+ggsave(filename = glue::glue("outputs/ten-minutes-{seed}.png"),
        height = 7,
        width = 7)
 ```
 
-<img src="ten-minutes-422024264.png" width="500px" />
+<img src="outputs/ten-minutes-93991514.png" width="500px" />

@@ -20,7 +20,7 @@ To complete a piece in ten minutes I take a shortcut: instead of coming up with 
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics("sol-lewitt-boston-wall-instructions.png")
+knitr::include_graphics("inputs/sol-lewitt-boston-wall-instructions.png")
 ```
 <!--[](sol-lewitt-boston-wall-instructions.png)-->
 
@@ -95,12 +95,12 @@ ggplot(data = df) +
   theme_void() +
   theme(plot.background = element_rect(fill = clrs[3],
                                        color = NA))
-ggsave(filename = glue::glue("ten-minutes-{seed}.png"),
+ggsave(filename = glue::glue("outputs/ten-minutes-{seed}.png"),
        height = 7,
        width = 7)
 ```
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics(glue("ten-minutes-{seed}.png"))
+knitr::include_graphics(glue("outputs/ten-minutes-{seed}.png"))
 ```
