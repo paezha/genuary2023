@@ -1,13 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Intersections: Transchromation
+# Intersections: Transchromations
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 The prompt for Day 4 is pretty open ended: intersections. I thought of
-intersecting geometries using package [`sf`]() but instead
+intersecting geometries using package [`sf`]() but instead I will
+intersect colors using regular geometries.
 
 For this piece I use the following packages:
 
@@ -177,4 +178,4 @@ ggsave(filename = glue::glue("outputs/transchromation-{seed}.png"),
 #> Saving 7 x 5 in image
 ```
 
-<img src="outputs/transchromation-19682809.png" width="500px" />
+<img src="outputs/transchromation-33098104.png" width="500px" />

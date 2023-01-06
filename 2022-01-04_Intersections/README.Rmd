@@ -11,12 +11,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Intersections: Transchromation
+# Intersections: Transchromations
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The prompt for Day 4 is pretty open ended: intersections. I thought of intersecting geometries using package [`sf`]() but instead 
+The prompt for Day 4 is pretty open ended: intersections. I thought of intersecting geometries using package [`sf`]() but instead I will intersect colors using regular geometries.
 
 For this piece I use the following packages:
 ```{r setup}
