@@ -70,7 +70,8 @@ df3 <- df |>
 Plot mosaics to generate final figure:
 ```{r fig.show='hide'}
 set.seed(seed = seed)
-col_palette <- sample(ghibli_palette("LaputaMedium"))
+col_palette_name <- sample(c("LaputaLight", "LaputaMedium", "LaputaDark"), 1)
+col_palette <- ghibli_palette(col_palette_name)
 
 ggplot() +
   geom_sf(data = df,

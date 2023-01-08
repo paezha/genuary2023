@@ -101,4 +101,4 @@ ggsave(filename = glue::glue("outputs/truchet-ghibli-{seed}.png"),
 #> Saving 7 x 5 in image
 ```
 
-<img src="outputs/truchet-ghibli-91286363.png" width="500px" />
+<img src="outputs/truchet-ghibli-46586596.png" width="500px" />

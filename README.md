@@ -37,3 +37,30 @@ and cartesian coordinates.
 <img src="2022-01-04_Intersections/outputs/transchromation-10322117.png" width="500px" />
 
 <img src="2022-01-04_Intersections/outputs/transchromation-45039195.png" width="500px" />
+
+## Day 5: [Debug view](https://github.com/paezha/genuary2023/tree/master/2022-01-05_Debug-View)
+
+Debugging a wave.
+
+<img src="2022-01-05_Debug-View/outputs/debug-view.gif" width="500px" />
+
+## Day 6: [Steal like an artist](https://github.com/paezha/genuary2023/tree/master/2022-01-06_Steal-Like-An-Artist)
+
+Stealing code from [George
+Savva](https://mastodon.online/@georgemsavva@genart.social/109622524704727827).
+
+<img src="2022-01-06_Steal-Like-An-Artist/outputs/steal-like-an-artist.gif" width="500px" />
+
+## Day 7: [Sample a color palette](https://github.com/paezha/genuary2023/tree/master/2022-01-07_Sample-a-color-palette)
+
+Truchet mosaic with colors sampled from Studio Ghibli’s Laputa: Castle
+in the Sky provided by package
+[{ghibli}](https://ewenme.github.io/ghibli/).
+
+<img src="2022-01-07_Sample-a-color-palette/outputs/truchet-ghibli-48318679.png" width="500px" />
+
+## Day 8: [Signed distance functions](https://github.com/paezha/genuary2023/tree/master/2022-01-08_Signed-Distance-Functions)
+
+Colorful signed distance functions of three split regular polygons.
+
+<img src="2022-01-08_Signed-Distance-Functions/outputs/sdf-88696514.png" width="500px" />

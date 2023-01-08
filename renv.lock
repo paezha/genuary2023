@@ -49,11 +49,11 @@
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "MexBrewer",
       "RemoteUsername": "paezha",
-      "RemoteRef": "HEAD",
+      "RemoteRepo": "MexBrewer",
+      "RemoteRef": "master",
       "RemoteSha": "3777e66203b36f6efec26818dfbd31ae8c94a3c4",
-      "Hash": "474842969c5403e5e809caab672e8ac6",
+      "Hash": "ff38bb3453d1bdc85b24d040d710af40",
       "Requirements": [
         "ggplot2"
       ]
@@ -93,12 +93,28 @@
         "Rcpp"
       ]
     },
+    "backports": {
+      "Package": "backports",
+      "Version": "1.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c39fbec8a30d23e721980b8afb31984c",
+      "Requirements": []
+    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "543776ae6848fde2f48ff3816d0628bc",
+      "Requirements": []
+    },
+    "bezier": {
+      "Package": "bezier",
+      "Version": "1.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a02b18c7fe82856f3e9a7e2f2a643435",
       "Requirements": []
     },
     "bslib": {
@@ -128,6 +144,16 @@
       "Requirements": [
         "fastmap",
         "rlang"
+      ]
+    },
+    "checkmate": {
+      "Package": "checkmate",
+      "Version": "2.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "147e4db6909d8814bb30f671b49d7e06",
+      "Requirements": [
+        "backports"
       ]
     },
     "class": {
@@ -280,6 +306,20 @@
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86",
       "Requirements": []
     },
+    "geomtextpath": {
+      "Package": "geomtextpath",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0fde68ff704fe1323dfe161e64669e3f",
+      "Requirements": [
+        "ggplot2",
+        "rlang",
+        "scales",
+        "systemfonts",
+        "textshaping"
+      ]
+    },
     "gganimate": {
       "Package": "gganimate",
       "Version": "1.0.8",
@@ -340,6 +380,24 @@
         "vctrs",
         "withr"
       ]
+    },
+    "ghibli": {
+      "Package": "ghibli",
+      "Version": "0.3.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "75a7804724cdf06813838e529dcec452",
+      "Requirements": [
+        "prismatic"
+      ]
+    },
+    "gifski": {
+      "Package": "gifski",
+      "Version": "1.6.6-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "32cfcc7a7a72484e5857645df33ac077",
+      "Requirements": []
     },
     "glue": {
       "Package": "glue",
@@ -463,6 +521,18 @@
         "rlang"
       ]
     },
+    "lwgeom": {
+      "Package": "lwgeom",
+      "Version": "0.2-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "68b7afe010f5ddc3d5a5c8113018bb39",
+      "Requirements": [
+        "Rcpp",
+        "sf",
+        "units"
+      ]
+    },
     "magrittr": {
       "Package": "magrittr",
       "Version": "2.0.3",
@@ -560,6 +630,16 @@
       "Repository": "CRAN",
       "Hash": "95ef9167b75dde9d2ccc3c7528393e7e",
       "Requirements": []
+    },
+    "prismatic": {
+      "Package": "prismatic",
+      "Version": "1.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "faa2193fdec94a45b4390aefc1280a62",
+      "Requirements": [
+        "farver"
+      ]
     },
     "progress": {
       "Package": "progress",
@@ -730,6 +810,17 @@
         "cpp11"
       ]
     },
+    "textshaping": {
+      "Package": "textshaping",
+      "Version": "0.3.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "1ab6223d3670fac7143202cb6a2d43d5",
+      "Requirements": [
+        "cpp11",
+        "systemfonts"
+      ]
+    },
     "tibble": {
       "Package": "tibble",
       "Version": "3.1.8",
@@ -743,6 +834,26 @@
         "pillar",
         "pkgconfig",
         "rlang",
+        "vctrs"
+      ]
+    },
+    "tidyr": {
+      "Package": "tidyr",
+      "Version": "1.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "cdb403db0de33ccd1b6f53b83736efa8",
+      "Requirements": [
+        "cpp11",
+        "dplyr",
+        "ellipsis",
+        "glue",
+        "lifecycle",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "tibble",
+        "tidyselect",
         "vctrs"
       ]
     },
@@ -769,6 +880,29 @@
       "Hash": "facc02f3d63ed7dd765513c004c394ce",
       "Requirements": [
         "xfun"
+      ]
+    },
+    "truchet": {
+      "Package": "truchet",
+      "Version": "0.0.0.9007",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "paezha",
+      "RemoteRepo": "truchet",
+      "RemoteRef": "master",
+      "RemoteSha": "5f8c93c1c316288612aa6280244cf176e7eed18e",
+      "Hash": "b5d52367055f0ed49e53adafc2bd56b8",
+      "Requirements": [
+        "bezier",
+        "checkmate",
+        "dplyr",
+        "lwgeom",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "sf",
+        "tidyr"
       ]
     },
     "tweenr": {
