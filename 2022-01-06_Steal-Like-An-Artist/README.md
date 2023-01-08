@@ -1,0 +1,61 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# Steal like an artist
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+For today’s prompt I stole the wonderfully compact and efficient code
+that [George Savva](https://github.com/georgemsavva/) created in 10
+minutes for Day 2 of Genuary 2023.
+
+The code is all written in base `R` and package `gifski` is used to
+create the animation. Besides experimenting with some parameters, the
+only change I make is draw colors from my
+[`MexBrewer`](https://github.com/paezha/MexBrewer) package:
+
+``` r
+library(gifski) # Highest Quality GIF Encoder 
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
+```
+
+## George Savva’s animated spiral
+
+Choose color palette:
+
+``` r
+col_palette <- mex.brewer("Maiz", n = 10)
+```
+
+Create spiral(s) and plot:
+
+``` r
+plotFun <- \(FUN) image(outer(x,y,FUN),
+                        axes=F,
+                        col=c(col_palette[10], 
+                              col_palette[5]),
+                        asp=1,
+                        useR=TRUE)
+
+spiral<-\(z,t,w,th) (Mod(z)+w/2/pi*(Arg(z)-t))%%w<(w*th) 
+
+N=600
+y=x=seq(-1,1,l=N)
+
+gifski::save_gif(lapply(seq(0,2*pi,l=30),\(t){
+  par(mar=c(0,0,0,0))
+  plotFun(\(x,y){
+    w=1/3; th=0.8
+    z = x+1i*y
+    spiral(z+0.8,+t,w,th)#*spiral(z-1,+t,w,th)*spiral(z+0,-t,w,th)
+    })
+  }),
+  gif_file ="outputs/steal-like-an-artist.gif", 
+  width = N,
+  height=N,
+  delay = 1/30)
+#> [1] "C:\\Antonio\\Rtistry\\genuary2023\\2022-01-06_Steal-Like-An-Artist\\outputs\\steal-like-an-artist.gif"
+```
+
+<img src="outputs/steal-like-an-artist.gif" width="500px" />
