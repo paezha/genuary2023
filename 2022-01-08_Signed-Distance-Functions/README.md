@@ -57,7 +57,6 @@ container_polygon <- matrix(c(0, 1,
 
 # Convert coordinates to polygons and then to simple features
 container_polygon <- data.frame(id = 1,
-                                r = NA,
                                 geometry = st_polygon(list(container_polygon)) |> 
                                   st_sfc()) |> 
   st_as_sf()
@@ -278,11 +277,11 @@ set.seed(seed = seed)
 
 ggplot() + 
   geom_sf(data = sdf |> st_intersection(container_polygon),
-          aes(fill = b),
-          color = NA) +
+          aes(fill = b)) +
   #geom_sf(data = polygons,
   #        color = "black",
   #        fill = NA) + 
+  #scale_fill_manual(values = col_palette) +
   scale_fill_mex_c(col_palette_name, direction = sample(-1, 1, 1)) +
   theme_void() + 
   theme(legend.position = "none")
@@ -296,4 +295,4 @@ ggsave(filename = glue::glue("outputs/sdf-{seed}.png"),
 #> Saving 7 x 5 in image
 ```
 
-<img src="outputs/sdf-52153332.png" width="500px" />
+<img src="outputs/sdf-57695693.png" width="500px" />
