@@ -78,3 +78,11 @@ The colors of the leaves are chosen based on the notes of Bach’s [Crab
 Canon](https://www.youtube.com/watch?v=36ykl2tJwZM)
 
 <img src="2022-01-10_Generative-music/outputs/crab-plant-775875665.png" width="500px" />
+
+## Day 10: [Suprematism: Supreme walks](https://github.com/paezha/genuary2023/tree/master/2022-01-11_Suprematism)
+
+Geometry and limited use of color may not be sufficient to
+algorithmically recreate the supremacy of “pure artistic feeling”. Or
+maybe they are. Who am I to say?
+
+<img src="2022-01-11_Suprematism/outputs/supreme-walks-56336370.png" width="500px" />
