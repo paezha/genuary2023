@@ -65,9 +65,16 @@ Colorful signed distance functions of three split regular polygons.
 
 <img src="2022-01-08_Signed-Distance-Functions/outputs/sdf-88696514.png" width="500px" />
 
-## Day 8: [Plants](https://github.com/paezha/genuary2023/tree/master/2022-01-09_Plants)
+## Day 9: [Plants](https://github.com/paezha/genuary2023/tree/master/2022-01-09_Plants)
 
 [Pierre Casadebaig’s](https://casadebaig.netlify.app/) system for
 generative plants.
 
 <img src="2022-01-09_Plants/outputs/plant-24912549.png" width="500px" />
+
+## Day 10: [Generative music](https://github.com/paezha/genuary2023/tree/master/2022-01-10_Generative-music)
+
+The colors of the leaves are chosen based on the notes of Bach’s [Crab
+Canon](https://www.youtube.com/watch?v=36ykl2tJwZM)
+
+<img src="2022-01-10_Generative-music/outputs/crab-plant-775875665.png" width="500px" />

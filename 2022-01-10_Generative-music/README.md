@@ -6,14 +6,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-For today’s prompt I use [Pierre
-Casadebaig’s](https://github.com/picasa) package
-[`generate`](https://github.com/picasa/generate). As explained
-[here](https://github.com/picasa/generative_examples/blob/master/R/sequence_collatz.rmd#L25),
-vegetation-like shapes can be obtained by defining a curve that maps a
-sequence of integers to segment lengths, changing the angle between
-segments by some pre-determined amount. Nodes are made of multiple
-curves, and stems are made of multiple nodes.
+Having never worked with sound before the best that I could do was use
+the notes of Bach’s [Crab
+Canon](https://www.youtube.com/watch?v=36ykl2tJwZM) to choose the colors
+of the leaves of yesterday’s
+[plants](https://github.com/paezha/genuary2023/tree/master/2022-01-09_Plants).
 
 For this piece I use the following packages:
 
@@ -96,7 +93,7 @@ col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Concha", "Frida",
 col_palette <- mex.brewer(col_palette_name)
 ```
 
-Generate random numbers for coloring the leaves:
+Use the notes of the Canon to color the leaves:
 
 ``` r
 # Create random variable to add colors
@@ -143,4 +140,4 @@ ggsave(filename = glue::glue("outputs/crab-plant-{seed}.png"),
        width = 4)
 ```
 
-<img src="outputs/crab-plant-407381582.png" width="500px" />
+<img src="outputs/crab-plant-973848443.png" width="500px" />
