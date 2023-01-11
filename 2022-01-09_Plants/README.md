@@ -129,4 +129,4 @@ ggsave(filename = glue::glue("outputs/plant-{seed}.png"),
        width = 4)
 ```
 
-<img src="outputs/plant-85432422.png" width="500px" />
+<img src="outputs/plant-769561522.png" width="500px" />
