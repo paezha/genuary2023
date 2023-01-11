@@ -194,6 +194,19 @@
       "Hash": "bb4341986bc8b914f0f0acf2e4a3f2f7",
       "Requirements": []
     },
+    "cowplot": {
+      "Package": "cowplot",
+      "Version": "1.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b418e8423699d11c7f2087c2bfd07da2",
+      "Requirements": [
+        "ggplot2",
+        "gtable",
+        "rlang",
+        "scales"
+      ]
+    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.3",
@@ -297,6 +310,28 @@
       "Repository": "CRAN",
       "Hash": "7c89603d81793f0d5486d91ab1fc6f1d",
       "Requirements": []
+    },
+    "generate": {
+      "Package": "generate",
+      "Version": "1.0.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "picasa",
+      "RemoteRepo": "generate",
+      "RemoteRef": "main",
+      "RemoteSha": "aa9b8fe49832be181ae9d7a7bae3cc4e25df807b",
+      "Hash": "f899ef37c3f20661575fb93ef3af57c8",
+      "Requirements": [
+        "cowplot",
+        "dplyr",
+        "ggforce",
+        "ggplot2",
+        "magrittr",
+        "purrr",
+        "scales",
+        "tidyr"
+      ]
     },
     "generics": {
       "Package": "generics",
@@ -776,6 +811,16 @@
         "units"
       ]
     },
+    "signal": {
+      "Package": "signal",
+      "Version": "0.7-7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b8f2ef9022ac085add25ae093754e6b3",
+      "Requirements": [
+        "MASS"
+      ]
+    },
     "stringi": {
       "Package": "stringi",
       "Version": "1.7.8",
@@ -903,6 +948,16 @@
         "rlang",
         "sf",
         "tidyr"
+      ]
+    },
+    "tuneR": {
+      "Package": "tuneR",
+      "Version": "1.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "bfa27f1b55dcc9be761f31a21e844ebc",
+      "Requirements": [
+        "signal"
       ]
     },
     "tweenr": {
