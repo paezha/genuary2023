@@ -1,0 +1,337 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(dplyr) # A Grammar of Data Manipulation
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(glue) # Interpreted String Literals
+library(gsubfn) # Utilities for Strings and Function Arguments
+library(lwgeom) # Bindings to Selected 'liblwgeom' Functions for Simple Features
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
+#library(rayrender) # Build and Raytrace 3D Scenes
+library(rayshader) # Create Maps and Visualize Data in 2D and 3D
+library(stringr) # Simple, Consistent Wrappers for Common String Operations
+library(sf) # Simple Features for R # Simple Features for R
+```
+
+## Generate a random seed
+
+```{r}
+seed <- sample.int(100000000, 1)
+```
+
+See [this](https://fronkonstin.com/2017/07/18/plants/) for code for L-systems:
+```{r}
+set.seed(seed)
+
+#Plant 2
+axiom <- "X"
+rules <- list("X"="FF[+XF][-XF]FFF", "F"="F")
+angle <- runif(5, 30, 70)
+depth <- 8
+
+for (i in 1:depth) axiom <- gsubfn(".", 
+                                   rules, 
+                                   axiom)
+
+actions <- axiom |>
+  str_extract_all("\\d*\\+|\\d*\\-|F|L|R|\\[|\\]|\\|") |>
+  unlist()
+
+status <- data.frame(x = numeric(0),
+                     y = numeric(0),
+                     alfa = numeric(0))
+
+points <- data.frame(x1 = 0, 
+                     y1 = -5, 
+                     x2 = NA, 
+                     y2 = NA, 
+                     alfa = 90, 
+                     depth = 1)
+
+for (action in actions){
+  if (action == "F")
+  {
+    x <- points[1, "x1"] + cos(points[1, "alfa"] * (pi/180))
+    y <- points[1, "y1"] + sin(points[1, "alfa"] * (pi/180))
+    points[1, "x2"] <- x
+    points[1, "y2"] <- y
+    points <- data.frame(x1 = x, 
+                         y1 = y, 
+                         x2 = NA, 
+                         y2 = NA, 
+                         alfa = points[1, "alfa"],
+                         depth = points[1,"depth"]) |>
+      rbind(points)
+  }
+  if (action %in% c("+", "-")){
+    alfa <- points[1, "alfa"]
+    points[1, "alfa"] <- eval(parse(text = paste0("alfa", action, sample(angle, 1))))
+  }
+  if(action=="["){ 
+    status <- data.frame(x = points[1, "x1"],
+                         y = points[1, "y1"],
+                         alfa = points[1, "alfa"]) |> 
+      rbind(status)
+    points[1, "depth"] <- points[1, "depth"] + 1
+  }
+  
+  if(action=="]"){ 
+    depth <- points[1, "depth"]
+    points <- points[-1,]
+    points <- data.frame(x1 = status[1, "x"],
+                         y1 = status[1, "y"],
+                         x2 = NA,
+                         y2 = NA, 
+                         alfa = status[1, "alfa"],
+                         depth = depth - 1) |> 
+      rbind(points)
+    status <- status[-1,]
+  }
+}
+
+ggplot() + 
+  geom_segment(aes(x = x1, 
+                   y = y1, 
+                   xend = x2,
+                   yend = y2), 
+               lineend = "round", 
+               colour="white",
+               data=na.omit(points)) + 
+  coord_fixed(ratio = 1) +
+  #theme_void() +
+  theme(#legend.position="none",
+    panel.background = element_rect(fill="black"),
+    #panel.grid=element_blank(),
+    #axis.ticks=element_blank(),
+    #axis.title=element_blank(),
+    #axis.text=element_blank()
+  )
+```
+
+```{r}
+begin.coord <- points |>
+  slice_tail(n = nrow(points) - 1) |>
+  select(x1, y1) |>
+  rename(x = x1, y = y1)
+
+end.coord <- points |>
+  slice_tail(n = nrow(points) - 1) |>
+  select(x2, y2) |>
+  rename(x = x2, y = y2)
+
+# Create list of simple feature geometries (linestrings)
+l_sf <- vector("list", nrow(begin.coord))
+for (i in seq_along(l_sf)){
+  l_sf[[i]] <- st_linestring(as.matrix(rbind(begin.coord[i, ], end.coord[i,])))
+}
+
+l_sf <- l_sf |>
+  st_as_sfc()
+```
+
+```{r}
+bbox <- matrix(c(-10, -10, 
+                 -10, 10, 
+                 10, 10,  
+                 10, -10,
+                 -10, -10),
+               ncol = 2,
+               byrow = TRUE)
+
+# Convert coordinates to polygons and then to simple features
+bbox <- data.frame(id = 1,
+                   geometry = st_polygon(list(bbox)) |> 
+                     st_sfc()) |> 
+  st_as_sf()
+```
+
+```{r}
+ggplot() + geom_sf(data = bbox) + geom_sf(data = l_sf)
+```
+
+```{r}
+triangle_2 <- bbox |>
+  st_split(l_sf) |>
+  st_collection_extract(c("POLYGON"))
+
+plot(triangle_2)
+```
+
+```{r}
+set.seed(seed)
+
+if(sample(c(TRUE, FALSE), 1)){
+  k <- sample.int(4, 1)
+
+  sprl <- data.frame(t = seq(0, 10, 0.05)) |>
+    mutate(id = 1:n(),
+           x = t * cos((5 + k) * t),
+           y = t * sin((5 + k) * t)) |>
+    st_as_sf(coords = c("x", "y"))
+
+  sprl <- data.frame(t = seq(0, 10, 0.05)) |>
+    mutate(id = 1:n(),
+           x = 0.01 * exp(k * t) * cos(t),
+           y = 0.01 * exp(k * t) * sin(t)) |>
+    st_as_sf(coords = c("x", "y"))
+}else{
+  ## See: https://www.r-bloggers.com/2019/01/playing-around-with-phyllotactic-spirals/
+  
+  n <- 300
+  ## changing up the angle 
+  angle <- sample(c("pi*(3-sqrt(5))",
+                    "sqrt(2)",
+                    "sqrt(3)",
+                    "sqrt(5)",
+                    "pi/7",
+                    "pi/9",
+                    "pi/46",
+                    "2",
+                    "2"),
+                  1)
+  
+  eval(parse(text = paste0("angle <-", angle)))
+  
+  sprl <- data.frame(
+    idx = c(0:(n-1))) |> ## you can increase the number here to use more lines.
+    mutate(t = seq(0,2*pi,length.out=n()),  ## since I used 0 to 1800 above, need to add 1
+           r = sqrt(idx), ## radius   
+           x = r * cos(angle*idx),
+           y = r * sin(angle*idx),
+           color_angle = atan2(y = y,
+                               x = x) ## get angle between x-axos and the vector from the origin to x,y
+    )  |>
+    st_as_sf(coords = c("x", "y"))
+}
+
+
+```
+
+
+```{r}
+ggplot() + 
+  geom_sf(data = sprl)
+```
+
+```{r}
+# The function `do.call(what, arg)` applies a function
+# `what` to the argument `arg`. In this case, we extract 
+# the geometry of the `sf` object (i.e., the coordinates 
+# of the points) and apply the function `c()` to concatenate 
+# the coordinates to obtain a MULTIPOINT object.   
+# The pipe operator passes the MuLTIPOINT object to function `st_voronoi()`
+v1 <- do.call(c, st_geometry(sprl)) %>% 
+  st_voronoi() %>% 
+  # The output of `st_voronoi()` is a collection of geometries, 
+  # which we pass to the following function for extraction.
+  st_collection_extract() |>
+  st_intersection(bbox)
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = v1) +
+  geom_sf(data = triangle_2,
+          fill = NA,
+          color = "red",
+          linewidth = 2)
+```
+
+```{r}
+junk <- st_intersection(v1, triangle_2)
+
+df <- data.frame(geometry = junk) |>
+  mutate(id = 1:n()) |>
+  st_as_sf() |>
+  st_cast(to = "POLYGON")
+
+coords <- st_centroid(df) |>
+  st_coordinates()
+
+df <- df |>
+  mutate(x = coords[,1],
+         y = coords[,2],
+         fill = 0.75 * sqrt(x^2 + y^2) + runif(n(), -0.05 + 0.05))
+
+container_polygon <- matrix(c(-7.5, -7.5, 
+                              -7.5, 7.5, 
+                              7.5, 7.5,  
+                              7.5, -7.5,
+                              -7.5, -7.5),
+                            ncol = 2,
+                            byrow = TRUE)
+
+# Convert coordinates to polygons and then to simple features
+container_polygon <- data.frame(id = 1,
+                                geometry = st_polygon(list(container_polygon)) |> 
+                                  st_sfc()) |> 
+  st_as_sf()
+```
+
+
+Randomly select a color palette from package [`MexBrewer`](https://paezha.github.io/MexBrewer/):
+```{r}
+set.seed(seed)
+
+col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+```
+
+
+```{r}
+p <- ggplot() +
+  geom_sf(data = df |>
+            st_intersection(container_polygon),
+          aes(fill = fill),
+          color = NA) +
+  scale_fill_mex_c(col_palette_name, direction = sample(c(-1, 1), 1)) +
+  theme(legend.position = "none",
+        axis.text = element_text(color = "white"),
+        panel.background = element_rect(fill = "white"),
+        axis.ticks = element_line(color = "white"))
+```
+
+Convert the ggplot object to a 3D image using {rayshader} and save:
+```{r}
+plot_gg(p,
+        phi = 90,
+        theta = 0,
+        pointcontract = 0,
+        height_aes = "fill",
+        raytrace = TRUE,
+        windowsize = c(4000, 4000))
+
+# Save image
+rgl::snapshot3d(glue("outputs/smashing-tessellations-{seed}.png"),
+                fmt = 'png',
+                webshot = TRUE,
+                width = 2100,
+                height = 2100)
+
+# Close rgl device
+rgl::rgl.close()
+```
+
+```{r include=FALSE}
+# Read named image
+im <- imager::load.image(glue("outputs/smashing-tessellations-{seed}.png"))
+```
+
+```{r include=FALSE}
+im <- imager::imsub(im,x > 550 & x < 1630, y > 467 & y < 1547)
+```
+
+```{r include=FALSE}
+imager::save.image(im, file = glue("outputs/smashing-tessellations-{seed}.png"))
+```
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics(glue("outputs/smashing-tessellations-{seed}.png"))
+```

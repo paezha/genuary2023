@@ -28,7 +28,7 @@ For this prompt I use the following packages:
 ```{r setup}
 library(ambient) # A Generator of Multidimensional Noise
 library(dplyr) # A Grammar of Data Manipulation
-library(ggforce)
+library(ggforce) # Accelerating 'ggplot2'
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals 
 library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
@@ -196,6 +196,7 @@ ggsave(filename = glue::glue("outputs/supreme-walks-{seed}.png"),
 # Display image
 knitr::include_graphics(glue("outputs/supreme-walks-{seed}.png"))
 ```
+
 
 
 

@@ -42,7 +42,7 @@ library(dplyr) # A Grammar of Data Manipulation
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-library(ggforce)
+library(ggforce) # Accelerating 'ggplot2'
 #> Loading required package: ggplot2
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals 
@@ -213,4 +213,4 @@ ggsave(filename = glue::glue("outputs/supreme-walks-{seed}.png"),
        width = 7)
 ```
 
-<img src="outputs/supreme-walks-70291642.png" width="500px" />
+<img src="outputs/supreme-walks-80977805.png" width="500px" />
