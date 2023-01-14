@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This piece is a homage to [Research Remora]() whose shattered tessellations I've long admired. I have not been able to figure out how he gets that awesome effect of shattering. Here, I take a Voronoi tessellation and smash it with a recursive L-system that I lifted from [Fronkonstin]().
+This piece is a homage to [Research Remora](https://twitter.com/researchremora/status/1473134507918245894) whose shattered tessellations I've long admired. I have not been able to figure out how he gets that awesome effect of shattering. Here, I take a Voronoi tessellation and smash it with a recursive L-system that I lifted from [Fronkonstin](https://fronkonstin.com/2017/07/18/plants/).
 
 For this piece I use the following packages:
 ```{r setup}
@@ -25,6 +25,7 @@ library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graph
 library(glue) # Interpreted String Literals
 library(gsubfn) # Utilities for Strings and Function Arguments
 library(lwgeom) # Bindings to Selected 'liblwgeom' Functions for Simple Features
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
 library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
 library(rayshader) # Create Maps and Visualize Data in 2D and 3D
 library(stringr) # Simple, Consistent Wrappers for Common String Operations
@@ -35,6 +36,7 @@ library(sf) # Simple Features for R # Simple Features for R
 
 ```{r}
 seed <- sample.int(100000000, 1)
+# seed <- 83744970
 ```
 
 ## Bounding box
@@ -65,18 +67,13 @@ set.seed(seed)
 if(sample(c(TRUE, FALSE), 1)){
   # Archimedean spiral
   k <- sample.int(4, 1)
-
+  
   sprl <- data.frame(t = seq(0, 10, 0.05)) |>
     mutate(id = 1:n(),
+           x_sp = t * cos((5 + k) * t),
+           y_sp = t * sin((5 + k) * t),
            x = t * cos((5 + k) * t),
            y = t * sin((5 + k) * t)) |>
-    st_as_sf(coords = c("x", "y"))
-
-  # Data frame with spiral points is converted to simple features
-  sprl <- data.frame(t = seq(0, 10, 0.05)) |>
-    mutate(id = 1:n(),
-           x = 0.01 * exp(k * t) * cos(t),
-           y = 0.01 * exp(k * t) * sin(t)) |>
     st_as_sf(coords = c("x", "y"))
 }else{
   # Number of points for the spiral; this parameter is the square of the radius of the spiral 
@@ -96,15 +93,17 @@ if(sample(c(TRUE, FALSE), 1)){
   
   eval(parse(text = paste0("angle <-", angle)))
   
-  junk <- runif(1, 0, 2 * pi)
+  theta <- runif(1, 0, 2 * pi)
   
   # Data frame with spiral points is converted to simple features
   sprl <- data.frame(
     idx = c(0:(n-1))) |> ## you can increase the number here to use more lines.
     mutate(t = seq(0,2*pi,length.out=n()),  ## since I used 0 to 1800 above, need to add 1
            r = sqrt(idx), ## radius   
-           x = r * cos(junk * angle * idx),
-           y = r * sin(junk * angle * idx),
+           x_sp = r * cos(theta * angle * idx),
+           y_sp = r * sin(theta * angle * idx),
+           x = r * cos(theta * angle * idx),
+           y = r * sin(theta * angle * idx),
            color_angle = atan2(y = y,
                                x = x) ## get angle between x-axis and the vector from the origin to x,y
     )  |>
@@ -126,18 +125,29 @@ Use the points of the spiral to create a Voronoi tessellation:
 # of the points) and apply the function `c()` to concatenate 
 # the coordinates to obtain a MULTIPOINT object.   
 # The pipe operator passes the MuLTIPOINT object to function `st_voronoi()`
-sprl <- do.call(c, st_geometry(sprl)) %>% 
+sprl_v<- do.call(c, st_geometry(sprl)) %>% 
   st_voronoi() %>% 
   # The output of `st_voronoi()` is a collection of geometries, 
   # which we pass to the following function for extraction.
-  st_collection_extract() |>
+  st_collection_extract()
+
+sprl_v <- sprl |>
+  st_set_geometry(st_geometry(sprl_v)) |>
   st_intersection(bbox)
+
+coords <- sprl_v |>
+  st_centroid() |> 
+  st_coordinates()
+
+sprl_v <- sprl_v |>
+  mutate(x_v = coords[,1],
+         y_v = coords[,2])
 ```
 
 Plot tessellation:
 ```{r}
 ggplot() +
-  geom_sf(data = sprl)
+  geom_sf(data = sprl_v)
 ```
 
 ## L-system
@@ -180,6 +190,8 @@ points <- data.frame(x1 = 0,
 
 Implement the recursive algorithm to generate the L-system:
 ```{r}
+set.seed(seed)
+
 for (action in actions){
   if (action == "F")
   {
@@ -281,73 +293,86 @@ ggplot() +
 To "smash" the tessellation, intersect the voronoi polygons with the split bounding box:
 ```{r}
 # Intersect the Voronoi polygons and the L-system
-sprl <- sprl |>
+sprl_v <- sprl_v |>
   st_intersection(l_sf)
 
 # Cast to polygons
-sprl <- data.frame(geometry = sprl) |>
-  mutate(id = 1:n()) |>
-  st_as_sf() |>
-  st_cast(to = "POLYGON")
+#prl <- data.frame(geometry = sprl) |>
+#  mutate(id = 1:n()) |>
+#  st_as_sf() |>
+#  st_cast(to = "POLYGON")
 
 # Extract the coordinates of the centroids of the polygons; these values can be used to choose the colors
-coords <- st_centroid(sprl) |>
+coords <- st_centroid(sprl_v) |>
   st_coordinates()
 
-# Add the coordinates of the polygon centroids and create a variable for the fill
-sprl <- sprl |>
-  mutate(x = coords[,1],
-         y = coords[,2],
-         # Add a bit of randomness in the fill to highlight the shattered pieces
-         fill = 0.75 * sqrt(x^2 + y^2) + runif(n(), -0.05 + 0.05))
+sprl_v <- sprl_v |>
+  mutate(x_sm = coords[,1],
+         y_sm = coords[,2])
 ```
 
-```{r}
-islands <- bbox |>
-  st_difference(sprl |> 
-                  st_combine()) |> 
-  mutate(id = id + max(sprl$id))
-
-# Extract the coordinates of the centroids of the polygons; these values can be used to choose the colors
-coords <- st_centroid(islands) |>
-  st_coordinates()
-
-# Add the coordinates of the polygon centroids and create a variable for the fill
-islands <- islands |>
-  mutate(x = coords[,1],
-         y = coords[,2],
-         # Add a bit of randomness in the fill to highlight the shattered pieces
-         fill = 0.75 * sqrt(x^2 + y^2) + runif(n(), -0.05 + 0.05))
-```
-
-Bind islands to rest of polygons:
-```{r}
-sprl <- sprl |>
-  rbind(islands)
-```
-
-
-## Render 
-
-Randomly select a color palette from package [`MexBrewer`](https://paezha.github.io/MexBrewer/):
+Choose a schema for coloring the polygons, based on the coordinates of the voronoi polygons or the smashed polygons:
 ```{r}
 set.seed(seed)
 
-col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+fill_schema <- sample(c("spiral", "voronoi", "smashed"), 1)
+
+# Add the coordinates of the polygon centroids and create a variable for the fill
+sprl_v <- sprl_v |>
+  mutate(x_sm = coords[,1],
+         y_sm = coords[,2],
+         fill = case_when(fill_schema == "spiral" ~ 0.75 * sqrt(x_sp^2 + y_sp^2) * runif(n(), 0.94, 1.05),
+                          fill_schema == "voronoi" ~ 0.75 * sqrt(x_v^2 + y_v^2) * runif(n(), 0.94, 1.05),
+                          fill_schema == "smashed" ~ 0.75 * sqrt(x_sm^2 + y_sm^2) * runif(n(), 0.94, 1.05)))
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = sprl_v)
+```
+
+## Render 
+
+Randomly select a color palette from package [`MexBrewer`](https://paezha.github.io/MexBrewer/) or [`MetBrewer`]():
+```{r}
+set.seed(seed)
+
+color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
+
+if(color_edition == "MetBrewer"){
+  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeefe1", "OKeefe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+}else{
+  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+}
+
 ```
 
 Create plot:
 ```{r}
+set.seed(seed)
+
 p <- ggplot() +
-  geom_sf(data = sprl,# |>
-            #st_intersection(container_polygon),
+  geom_sf(data = sprl_v,# |>
+          #st_intersection(container_polygon),
           aes(fill = fill),
-          color = NA) +
-  scale_fill_mex_c(col_palette_name, direction = sample(c(-1, 1), 1)) +
-  theme(legend.position = "none",
-        axis.text = element_text(color = "white"),
-        panel.background = element_rect(fill = "white"),
-        axis.ticks = element_line(color = "white"))
+          color = NA)
+if(color_edition == "MetBrewer"){
+  p <- p +
+    scale_fill_met_c(col_palette_name, 
+                     direction = sample(c(-1, 1), 1)) +
+    theme(legend.position = "none",
+          axis.text = element_text(color = "white"),
+          panel.background = element_rect(fill = "white"),
+          axis.ticks = element_line(color = "white"))
+}else{
+  p <- p +
+    scale_fill_mex_c(col_palette_name, 
+                     direction = sample(c(-1, 1), 1)) +
+    theme(legend.position = "none",
+          axis.text = element_text(color = "white"),
+          panel.background = element_rect(fill = "white"),
+          axis.ticks = element_line(color = "white"))
+}
 ```
 
 Convert the ggplot object to a 3D image using {rayshader} and save:
@@ -390,3 +415,4 @@ imager::save.image(im, file = glue("outputs/smashing-tessellations-{seed}.png"))
 # Display image
 knitr::include_graphics(glue("outputs/smashing-tessellations-{seed}.png"))
 ```
+

@@ -48,12 +48,12 @@
       "Version": "0.0.2",
       "Source": "GitHub",
       "RemoteType": "github",
-      "RemoteHost": "api.github.com",
       "RemoteUsername": "paezha",
       "RemoteRepo": "MexBrewer",
       "RemoteRef": "master",
-      "RemoteSha": "3777e66203b36f6efec26818dfbd31ae8c94a3c4",
-      "Hash": "ff38bb3453d1bdc85b24d040d710af40",
+      "RemoteSha": "6b01d601230c59eff07dbe5640b84e5bb4fd528b",
+      "RemoteHost": "api.github.com",
+      "Hash": "eb97b8883d51df5f50631ca7dfa79431",
       "Requirements": [
         "ggplot2"
       ]
@@ -529,16 +529,6 @@
       "Hash": "36b4265fb818f6a342bed217549cd896",
       "Requirements": []
     },
-    "here": {
-      "Package": "here",
-      "Version": "1.0.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "24b224366f9c2e7534d2344d10d59211",
-      "Requirements": [
-        "rprojroot"
-      ]
-    },
     "highr": {
       "Package": "highr",
       "Version": "0.10",
@@ -997,14 +987,6 @@
         "xfun",
         "yaml"
       ]
-    },
-    "rprojroot": {
-      "Package": "rprojroot",
-      "Version": "2.0.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "1de7ab598047a87bba48434ba35d497d",
-      "Requirements": []
     },
     "s2": {
       "Package": "s2",
