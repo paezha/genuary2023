@@ -92,3 +92,17 @@ maybe they are. Who am I to say?
 Smashing Voronoi.
 
 <img src="2022-01-12_Tessellation/outputs/smashing-tessellations-7914644.png" width="500px" />
+
+## Day 13: [Something I’ve always wanted to learn](https://paezha.github.io/MexBrewer/)
+
+How to submit an `R` package to CRAN. Today I submitted my
+[{MexBrewer}](https://paezha.github.io/MexBrewer/) package to CRAN, and
+now I am waiting the results of the checks.
+
+<img src="2022-01-13_Something-you’ve-always-wanted-to-learn/MexBrewer.png" width="500px" />
+
+## Day 14: [Asemic](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic)
+
+Asemic haiku.
+
+<img src="2022-01-14_Aesemic/outputs/asemic-haiku-lr-31693569.png" width="500px" />
