@@ -377,7 +377,6 @@ ggsave(glue::glue("outputs/asemic-haiku-bd-{seed}.png"),
        height = 7,
        width = 4,
        units = "in")
-
 ```
 
 

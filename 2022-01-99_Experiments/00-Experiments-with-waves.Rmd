@@ -9,8 +9,10 @@ Try executing this chunk by clicking the *Run* button within the chunk or by pla
 
 ```{r}
 library(dplyr)
+library(tidyr)
 library(geomtextpath)
 library(gganimate)
+library(ggforce)
 library(ggplot2)
 library(MexBrewer)
 library(stringr)
@@ -38,9 +40,61 @@ Plot:
 ggplot() + 
   geom_line(data = df,
             aes(x = x, 
+                y = y,
+                color = t))# +
+  #theme_void()
+```
+
+Plot:
+```{r}
+ggplot() + 
+  geom_line(data = df,
+            aes(x = x, 
                 y = y)) +
   transition_time(time = t)
 ```
+
+
+Create a data frame with values of $x$ and $t$ (I use $0 \le t \le 62$ because this value creates a full cycle of the wave...but I am not sure why!):
+```{r}
+df <- expand.grid(x = seq(0, 14, 0.1),
+                  t = 0:62) |>
+  mutate(wave1 = 0.5 * exp(-0.25 * x) * sin(2 * x + 0.1 * t),
+         wave2 = 8/49 * (7 - x)^2 * sin(2 * x + 0.1 * t)) |>
+  pivot_longer(cols = starts_with("wave"), names_to = "wave", values_to = "y")
+```
+
+```{r}
+df <- expand.grid(x = seq(0, 14, 0.1),
+                  t = 0:62) |>
+  mutate(y = 4/49 * (7 - x)^2 * sin(2 * x + 0.1 * t))
+
+df2 <- data.frame(t = 0:62) |>
+  mutate(x0 = 7,
+         y0 = 2.5,
+         r = 1.5 * (62 - t)/62)
+```
+
+In the above, $\alpha = 0.5$ (this is the maximum amplitude) and $\beta = 0.25$, meaning that the wave's amplitude decays by about 92% when $x=10$. Plot:
+```{r}
+ggplot() + 
+  geom_line(data = df |> filter(t %% 2 == 0),
+            aes(x = x, 
+                y = y,
+                group = t,
+                color = t),
+            linewidth = 0) +
+  geom_circle(data = df2 |> filter(t %% 4 == 0),
+              aes(x0 = x0, y0 = y0, r = r, color = t)) +
+  scale_color_gradient(low = "white", high = "black") +
+  theme_void() +
+  coord_equal() +
+  theme(legend.position = "none",
+        panel.background = element_rect(fill = "black"),
+        plot.background = element_rect(fill = "black"))# +
+  #transition_time(time = t)
+```
+
 
 Simulate wave in 2D:
 ```{r}

@@ -456,4 +456,4 @@ rgl::snapshot3d(glue("outputs/smashing-tessellations-{seed}.png"),
 rgl::rgl.close()
 ```
 
-<img src="outputs/smashing-tessellations-5874861.png" width="500px" />
+<img src="outputs/smashing-tessellations-56902365.png" width="500px" />

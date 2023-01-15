@@ -106,3 +106,9 @@ now I am waiting the results of the checks.
 Asemic haiku.
 
 <img src="2022-01-14_Aesemic/outputs/asemic-haiku-lr-31693569.png" width="500px" />
+
+## Day 15: [Sine waves](https://github.com/paezha/genuary2023/tree/master/2022-01-15_Sine-waves)
+
+Sinescape.
+
+<img src="2022-01-15_Sine-waves/outputs/sine-wave.png" width="500px" />

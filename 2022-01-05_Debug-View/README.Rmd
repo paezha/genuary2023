@@ -28,7 +28,6 @@ library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
 library(stringr) # Simple, Consistent Wrappers for Common String Operations
 ```
 
-
 ## Wave equation
 
 The equation of a wave that moves in one dimension:
