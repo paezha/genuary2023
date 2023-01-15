@@ -11,12 +11,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Debug view
+# Sine waves
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The prompt for Day 5 is Debug View. Here I present one step in the debugging process of creating a wave with damping.
+The prompt for Day 15 is to use sine functions to make waves.
 
 For this piece I use the following packages:
 ```{r setup}
@@ -27,17 +27,20 @@ library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graph
 
 ## Wave equation
 
-The equation of a wave that moves in one dimension:
+This is the equation of a wave that moves in one dimension:
 $$
 y(x, t) = A\sin(kx + \omega t - \phi)
 $$
 
+- $y$: position of the wave in the y-axis
 - $A$: amplitude
 - $k$: speed of propagation
+- $x$: position of the wave in the x-axis
 - $\omega$: angular frequency
+- $t$: time
 - $\phi$: phase
 
-The amplitude $A$ can be parameterized in terms of time or position. I try the following:
+The amplitude $A$ can be parameterized in terms of time or position, for example:
 $$
 A(x) = \alpha\cdot\exp(-\beta x)
 $$
