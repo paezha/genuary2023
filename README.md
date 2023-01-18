@@ -112,3 +112,13 @@ Asemic haiku.
 Sinescape.
 
 <img src="2022-01-15_Sine-waves/outputs/sine-wave.png" width="500px" />
+
+## Day 16: [Reflection of a reflection]()
+
+WIP.
+
+## Day 17: [Grid in a grid](https://github.com/paezha/genuary2023/tree/master/2022-01-17_A-grid-inside-a-grid-inside-a-grid)
+
+A grid inside a grid…
+
+<img src="2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-70046790.png" width="500px" />

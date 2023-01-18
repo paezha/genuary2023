@@ -82,11 +82,12 @@ ggplot() +
             aes(x = x, 
                 y = y,
                 group = t,
-                color = t),
-            linewidth = 0) +
+                color = t,
+                linewidth = t)) +
   geom_circle(data = df2 |> filter(t %% 4 == 0),
               aes(x0 = x0, y0 = y0, r = r, color = t)) +
   scale_color_gradient(low = "white", high = "black") +
+  scale_linewidth(range = c(0,1)) +
   theme_void() +
   coord_equal() +
   theme(legend.position = "none",

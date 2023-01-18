@@ -1,0 +1,127 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# A grid inside a grid
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The prompt for Day 15 is to draw grids inside grids.
+
+For this piece I use the following packages:
+```{r setup}
+library(dplyr) # A Grammar of Data Manipulation
+library(ggforce) # Accelerating 'ggplot2' # Accelerating 'ggplot2' 
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Painters and Muralists
+```
+
+## Generate a random seed
+
+```{r}
+seed <- sample.int(100000000, 1)
+# seed <- 83744970
+```
+
+## Generate grids
+
+Grid 1:
+```{r}
+set.seed(seed)
+
+df <- expand.grid(x = seq(1, 9, 1), 
+                  y = seq(1, 9, 1)) |>
+  mutate(angle = runif(1, 0, 2 * pi) + pi * x/9 + pi * y/9 + runif(n(), -pi/16, pi/16),
+         fill = x + y + runif(n(), 0, 3))
+
+```
+
+Grid 2:
+```{r}
+set.seed(seed)
+
+df2 <- expand.grid(x = seq(2/3, 9 + 1/3, 1/3), 
+                   y = seq(2/3, 9 + 1/3, 1/3)) |>
+  mutate(angle = runif(1, 0, 2 * pi) - pi * x/9 - pi * y/9 + runif(n(), -pi/24, pi/24),
+         fill = 5 + x + y + runif(n(), 0, 3))
+```
+
+Grid :3
+```{r}
+df3 <- expand.grid(x = seq(0, 10, 1/9), 
+                   y = seq(0, 10, 1/9))
+```
+
+# Render
+
+Randomly select a color palette from package [`MexBrewer`](https://paezha.github.io/MexBrewer/) or [`MetBrewer`]():
+```{r}
+set.seed(seed)
+
+color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
+
+if(color_edition == "MetBrewer"){
+  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeefe1", "OKeefe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+  col_palette <- met.brewer(col_palette_name)
+}else{
+  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+  col_palette <- mex.brewer(col_palette_name)
+}
+
+```
+
+Plot:
+```{r fig.show='hide'}
+set.seed(seed)
+
+ggplot() + 
+  geom_regon(data = df,
+             aes(x0 = x, 
+                 y0 = y, 
+                 sides = 4, 
+                 r = 0.62, 
+                 angle = angle,
+                 fill = fill)) + 
+  geom_regon(data = df2,
+             aes(x0 = x, 
+                 y0 = y, 
+                 sides = 4, 
+                 r = 4/48, 
+                 angle = angle,
+                 fill = fill),
+             color = "black") +
+  geom_point(data = df3,
+             aes(x = x,
+                 y = y),
+             color = sample(col_palette, 1),
+             size = 0.1) +
+  scale_fill_gradientn(colors = col_palette) +
+  xlim(c(0, 10)) +
+  ylim(c(0, 10)) +
+  coord_equal() +
+  theme_void() +
+  theme(legend.position = "none",
+        panel.background = element_rect(color = NA,
+                                        fill = sample(col_palette, 1)))
+
+ggsave(filename = glue::glue("outputs/grid-in-grid-{seed}.png"),
+       height = 7,
+       width = 7)
+```
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics(glue::glue("outputs/grid-in-grid-{seed}.png"))
+```
+
