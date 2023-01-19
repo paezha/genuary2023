@@ -141,6 +141,11 @@ How to submit an `R` package to CRAN. Today I submitted my [{MexBrewer}](https:/
 knitr::include_graphics("2022-01-13_Something-you’ve-always-wanted-to-learn/MexBrewer.png")
 ```
 
+UPDATE: Yay!
+
+https://CRAN.R-project.org/package=MexBrewer
+
+
 ## Day 14: [Asemic](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic)
 
 Asemic haiku.
@@ -174,5 +179,5 @@ A grid inside a grid...
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics("2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-70046790.png")
+knitr::include_graphics("2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-Maiz-65863013.png")
 ```

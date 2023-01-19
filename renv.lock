@@ -43,17 +43,22 @@
         "lattice"
       ]
     },
+    "MetBrewer": {
+      "Package": "MetBrewer",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9dda8af6359c4b3932426430c38fa1b1",
+      "Requirements": [
+        "ggplot2"
+      ]
+    },
     "MexBrewer": {
       "Package": "MexBrewer",
       "Version": "0.0.2",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteUsername": "paezha",
-      "RemoteRepo": "MexBrewer",
-      "RemoteRef": "master",
-      "RemoteSha": "6b01d601230c59eff07dbe5640b84e5bb4fd528b",
-      "RemoteHost": "api.github.com",
-      "Hash": "eb97b8883d51df5f50631ca7dfa79431",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "119b040438264adf5552e09c276a5701",
       "Requirements": [
         "ggplot2"
       ]

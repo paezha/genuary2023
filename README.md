@@ -101,6 +101,10 @@ now I am waiting the results of the checks.
 
 <img src="2022-01-13_Something-you’ve-always-wanted-to-learn/MexBrewer.png" width="500px" />
 
+UPDATE: Yay!
+
+<https://CRAN.R-project.org/package=MexBrewer>
+
 ## Day 14: [Asemic](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic)
 
 Asemic haiku.
@@ -121,4 +125,4 @@ WIP.
 
 A grid inside a grid…
 
-<img src="2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-70046790.png" width="500px" />
+<img src="2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-Maiz-65863013.png" width="500px" />

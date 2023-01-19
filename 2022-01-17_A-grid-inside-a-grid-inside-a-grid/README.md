@@ -44,10 +44,13 @@ Grid 1:
 ``` r
 set.seed(seed)
 
+sign_1 <- sample(c(-1, 1), 1)
+sign_2 <- sample(c(-1, 1), 1)
+
 df <- expand.grid(x = seq(1, 9, 1), 
                   y = seq(1, 9, 1)) |>
-  mutate(angle = runif(1, 0, 2 * pi) + pi * x/9 + pi * y/9 + runif(n(), -pi/16, pi/16),
-         fill = x + y + runif(n(), 0, 3))
+  mutate(angle = runif(1, 0, 2 * pi) + sign_1 * pi * x/9 + sign_2 * pi * y/9 + runif(n(), -pi/16, pi/16),
+         fill = sign_1 * x + sign_2 * y + runif(n(), 0, 3))
 ```
 
 Grid 2:
@@ -57,8 +60,8 @@ set.seed(seed)
 
 df2 <- expand.grid(x = seq(2/3, 9 + 1/3, 1/3), 
                    y = seq(2/3, 9 + 1/3, 1/3)) |>
-  mutate(angle = runif(1, 0, 2 * pi) - pi * x/9 - pi * y/9 + runif(n(), -pi/24, pi/24),
-         fill = 5 + x + y + runif(n(), 0, 3))
+  mutate(angle = runif(1, 0, 2 * pi) - sign_1 * pi * x/9 - sign_2 * pi * y/9 + runif(n(), -pi/24, pi/24),
+         fill = 5 - sign_1 * x - sign_2 * y + runif(n(), 0, 3))
 ```
 
 Grid :3
@@ -79,7 +82,7 @@ set.seed(seed)
 color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
 
 if(color_edition == "MetBrewer"){
-  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeefe1", "OKeefe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
   col_palette <- met.brewer(col_palette_name)
 }else{
   col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
@@ -91,6 +94,8 @@ Plot:
 
 ``` r
 set.seed(seed)
+
+set_colors <- sample(col_palette, 2)
 
 ggplot() + 
   geom_regon(data = df,
@@ -111,20 +116,18 @@ ggplot() +
   geom_point(data = df3,
              aes(x = x,
                  y = y),
-             color = sample(col_palette, 1),
+             color = set_colors[1],
              size = 0.1) +
   scale_fill_gradientn(colors = col_palette) +
-  xlim(c(0, 10)) +
-  ylim(c(0, 10)) +
-  coord_equal() +
+  coord_equal(expand = FALSE) +
   theme_void() +
   theme(legend.position = "none",
         panel.background = element_rect(color = NA,
-                                        fill = sample(col_palette, 1)))
+                                        fill = set_colors[2]))
 
 ggsave(filename = glue::glue("outputs/grid-in-grid-{seed}.png"),
        height = 7,
        width = 7)
 ```
 
-<img src="outputs/grid-in-grid-24097014.png" width="500px" />
+<img src="outputs/grid-in-grid-77961510.png" width="500px" />
