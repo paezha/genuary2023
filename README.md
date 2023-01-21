@@ -126,3 +126,15 @@ WIP.
 A grid inside a grid…
 
 <img src="2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-Maiz-65863013.png" width="500px" />
+
+## Day 18: [Definitely not a grid in a grid]()
+
+WIP
+
+## Day 19: [Black and white](https://github.com/paezha/genuary2023/tree/master/2022-01-19_Black-and-white)
+
+Matching Black & white and White & Black images.
+
+<img src="2022-01-19_Black-and-white/outputs/cubescape-b-w-44498798.png" width="500px" />
+
+<img src="2022-01-19_Black-and-white/outputs/cubescape-w-b-44498798.png" width="500px" />
