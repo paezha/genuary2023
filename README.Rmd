@@ -193,7 +193,7 @@ WIP
 
 ## Day 19: [Black and white](https://github.com/paezha/genuary2023/tree/master/2022-01-19_Black-and-white)
 
-Matching Black \& white and White \& Black images.
+Matching Black \& White and White \& Black images.
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image

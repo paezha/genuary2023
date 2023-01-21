@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-Monotone [cubescapes]().
+Monotone [cubescapes](https://github.com/paezha/cubescapes).
 
 I use these packages:
 ```{r setup}

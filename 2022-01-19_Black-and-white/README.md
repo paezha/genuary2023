@@ -7,7 +7,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Monotone [cubescapes]().
+Monotone [cubescapes](https://github.com/paezha/cubescapes).
 
 I use these packages:
 
@@ -178,7 +178,7 @@ ggsave(glue("outputs/cubescape-w-b-{seed}.png"),
        units = "in")
 ```
 
-<img src="outputs/cubescape-w-b-3088855.png" width="500px" />
+<img src="outputs/cubescape-w-b-2602891.png" width="500px" />
 
 Plot with a black background:
 
@@ -213,4 +213,4 @@ ggsave(glue("outputs/cubescape-b-w-{seed}.png"),
 #> Saving 7 x 8 in image
 ```
 
-<img src="outputs/cubescape-b-w-3088855.png" width="500px" />
+<img src="outputs/cubescape-b-w-2602891.png" width="500px" />
