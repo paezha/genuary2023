@@ -1,140 +1,242 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# genuary2023
+
+
+# Shadows
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-This repository is for [genuary2023](https://genuary.art/), a month of
-generative art. A great opportunity to learn something new coding-wise,
-while indulging in some Rtistry.
 
-## Day 1: [Perfect loop](2022-01-01_Perfect-loop/fiesta-t-74202868.gif)
+For this piece I use the following packages:
 
-For this I revisit a system that I designed a few months ago, called
-“Fiesta”.
+```r
+library(dplyr) # A Grammar of Data Manipulation
+#library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(glue) # Interpreted String Literals
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
+library(rayrender) # Create Maps and Visualize Data in 2D and 3D
+```
 
-<img src="2022-01-01_Perfect-loop/outputs/fiesta-t-74202868.gif" width="500px" />
+## Generate a random seed
 
-## Day 2: [Made in ten minutes](https://github.com/paezha/genuary2023/tree/master/2022-01-02_Made-in-10-minutes)
 
-Coding Sol LeWitt’s wall drawing instructions in ten minutes.
+```r
+seed <- sample.int(100000000, 1)
+# seed <- 83744970
+```
 
-<img src="2022-01-02_Made-in-10-minutes/outputs/ten-minutes-658618151.png" width="500px" />
+## Columns
 
-## Day 3: [Glitch art](https://github.com/paezha/genuary2023/tree/master/2022-01-03_Glitch-Art)
+Generate a grid with the positions of the columns. These are the basic positions, but can be modified to obtain more interesting patterns.
 
-Glitching geometries.
+```r
+df <- expand.grid(x = c(-3), # This is to create a single rows of columns; consider adding more
+                  z = seq(30, -30, -2.5)) # These are the positions and spacing between columns in the z axis (front-back)
+```
 
-<img src="2022-01-03_Glitch-Art/outputs/glitched-voronoi-46709552.png" width="500px" />
+Randomly select a color palette from package [`MexBrewer`](https://CRAN.R-project.org/package=MexBrewer) or [`MetBrewer`](https://CRAN.R-project.org/package=MetBrewer). The color palette will consist of as many colors as columns in the grid:
 
-## Day 4: [Intersections](https://github.com/paezha/genuary2023/tree/master/2022-01-04_Intersections)
+```r
+set.seed(seed)
 
-Intersections of bands and polygons to create transchromations in polar
-and cartesian coordinates.
+color_edition <- sample(c("MetBrewer",
+                          "MexBrewer"),
+                        1)
 
-<img src="2022-01-04_Intersections/outputs/transchromation-10322117.png" width="500px" />
+if(color_edition == "MetBrewer"){
+  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+  col_palette <- met.brewer(col_palette_name, n = nrow(df) + 1)
+}else{
+  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+  col_palette <- mex.brewer(col_palette_name, n = nrow(df) + 1)
+}
+```
 
-<img src="2022-01-04_Intersections/outputs/transchromation-45039195.png" width="500px" />
+Next, I create a data frame with the parameters for the position, radius, and height of the columns. The position in x is on the plane (left-right), y is the vertical axis, and z is on the plane (front-back). The element used for the columns is essentially a plane (no depth) and the dimensions are given by parameters `xwidth` and `ywidth`. Given the effect I wish to achieve, the center of this thin element will be centered on $y = 5$. The height of the columns should be at least twice this value to ensure that the columns are not "floating". Also, an angle can be used to rotate the thin plane on any of the three axes. Here, the angle will be for a rotation on the y-axis (vertical). In this data frame, the chosen color palette is also used to assign colors either at random or sorted (as an alternative the colors could be a function of position, angle, or other attribute of the columns):
 
-## Day 5: [Debug view](https://github.com/paezha/genuary2023/tree/master/2022-01-05_Debug-View)
+```r
+set.seed(seed)
 
-Debugging a wave.
+# Choose at random whether to randomize or sort the colors
+color_scheme <- sample(c("Random", "Sorted"), 1)
 
-<img src="2022-01-05_Debug-View/outputs/debug-view.gif" width="500px" />
+# Mutate the data frame to change the position on x as a function of z. Here I experiment with a power function.
+df <- df |> 
+  mutate(x = z^sample.int(4, 1),#0.01 * z^2,
+         # Adjust the value in z to make sure that it is in a small interval, since the powers of z could result in very large values of x
+         x = sample(c(-1, 1), 1) * runif(1, 0.1, 0.5) * 60 * x/(max(x) - min(x)),
+         y = 5, # The columns are on the ground, not floating, not sunk
+         xwidth = 2,
+         ywidth = 30, 
+         angle = runif(1, -2.5, 2.5) * max(x)) # The angle is in degrees, not radians, and is a rotation on the vertical plane
 
-## Day 6: [Steal like an artist](https://github.com/paezha/genuary2023/tree/master/2022-01-06_Steal-Like-An-Artist)
+# Add the coloring scheme
+if(color_scheme == "Random"){
+  df <- df |>
+    mutate(color = sample(col_palette[1:nrow(df)]))
+}else{
+  df <- df |>
+    mutate(color = col_palette[1:nrow(df)])
+}
+```
 
-Stealing code from [George
-Savva](https://mastodon.online/@georgemsavva@genart.social/109622524704727827).
+Here I initialize an empty data frame and then use `df` to populate the parameters that go into `rayrender::xy_rect()`  to create the thin planes that become my "columns". The material of the columns is chosen at random:
 
-<img src="2022-01-06_Steal-Like-An-Artist/outputs/steal-like-an-artist.gif" width="500px" />
+```r
+set.seed(seed)
 
-## Day 7: [Sample a color palette](https://github.com/paezha/genuary2023/tree/master/2022-01-07_Sample-a-color-palette)
+obj <- data.frame()
 
-Truchet mosaic with colors sampled from Studio Ghibli’s Laputa: Castle
-in the Sky provided by package
-[{ghibli}](https://ewenme.github.io/ghibli/).
+material <- sample(c("Diffuse", "Metal", "Dielectric", "Glossy"), 1)
 
-<img src="2022-01-07_Sample-a-color-palette/outputs/truchet-ghibli-48318679.png" width="500px" />
+if(material == "Diffuse"){
+  for(i in 1:nrow(df)){
+    obj <- rbind(obj,
+                 xy_rect(x = df$x[i],
+                         y = df$y[i],
+                         z = df$z[i],
+                         xwidth = df$xwidth[i],
+                         ywidth = df$ywidth[i],
+                         angle = c(0, df$angle[i], 0),
+                         material = diffuse(color=df$color[i])))
+  }
+}else if(material == "Metal"){
+  for(i in 1:nrow(df)){
+    obj <- rbind(obj,
+                 xy_rect(x = df$x[i],
+                         y = df$y[i],
+                         z = df$z[i],
+                         xwidth = df$xwidth[i],
+                         ywidth = df$ywidth[i],
+                         angle = c(0, df$angle[i], 0),
+                         material = metal(color=df$color[i])))
+  }
+}else if(material == "Dielectric"){
+  for(i in 1:nrow(df)){
+    obj <- rbind(obj,
+                 xy_rect(x = df$x[i],
+                         y = df$y[i],
+                         z = df$z[i],
+                         xwidth = df$xwidth[i],
+                         ywidth = df$ywidth[i],
+                         angle = c(0, df$angle[i], 0),
+                         material = dielectric(df$color[i])))
+  }
+}else{
+  for(i in 1:nrow(df)){
+    obj <- rbind(obj,
+                 xy_rect(x = df$x[i],
+                         y = df$y[i],
+                         z = df$z[i],
+                         xwidth = df$xwidth[i],
+                         ywidth = df$ywidth[i],
+                         angle = c(0, df$angle[i], 0),
+                         material = glossy(color=df$color[i])))
+  }
+}
+```
 
-## Day 8: [Signed distance functions](https://github.com/paezha/genuary2023/tree/master/2022-01-08_Signed-Distance-Functions)
+In this chunk of code, the scene for the rayrendering is initialized. The color of the ground is chosen randomly from the color palette in use:
 
-Colorful signed distance functions of three split regular polygons.
+```r
+set.seed(seed)
 
-<img src="2022-01-08_Signed-Distance-Functions/outputs/sdf-88696514.png" width="500px" />
+#bkg_c <- col_palette[25]
+scene <- generate_ground(spheresize = 10000 ,
+                         material = diffuse(color = sample(col_palette, 1)))
+```
 
-## Day 9: [Plants](https://github.com/paezha/genuary2023/tree/master/2022-01-09_Plants)
+After initializing the scene, it is now possible to add the objects (i.e., the columns). Also, I like to include either one or two source of light with random position:
 
-[Pierre Casadebaig’s](https://casadebaig.netlify.app/) system for
-generative plants.
+```r
+set.seed(seed)
 
-<img src="2022-01-09_Plants/outputs/plant-24912549.png" width="500px" />
+n_lights <- sample(c("One", "Two"), 1)
 
-## Day 10: [Generative music](https://github.com/paezha/genuary2023/tree/master/2022-01-10_Generative-music)
+if(n_lights == "One"){
+  # Randomly choose the position of the light source along the z-axis
+  z_pos <- runif(1, -30, 30)
+  
+  scene <- scene |>
+    add_object(objects = obj) |>
+    #light source
+    add_object(sphere(x = -50,
+                      y = 50,
+                      z = z_pos,
+                      r = 5,
+                      material=light(intensity = 1000,
+                                     invisible = TRUE)))
+  
+}else{
+  # Randomly choose the position of the light source along the z-axis; the lights are positioned an equal distance away from z=0
+  z_pos <- runif(1, 0, 30)
+  
+  scene <- scene |> 
+    add_object(objects = obj) |>
+    # first light source
+    add_object(sphere(x = -50,
+                      y = 50,
+                      z = -z_pos,
+                      r = 5,
+                      material=light(intensity = 500,
+                                     invisible = TRUE))) |>
+    # second light source
+    add_object(sphere(x = -50,
+                      y = 50,
+                      z = z_pos,
+                      r = 5,
+                      material=light(intensity = 500,
+                                     invisible = TRUE)))
+}
+```
 
-The colors of the leaves are chosen based on the notes of Bach’s [Crab
-Canon](https://www.youtube.com/watch?v=36ykl2tJwZM)
+## Render the scene
 
-<img src="2022-01-10_Generative-music/outputs/crab-plant-775875665.png" width="500px" />
+Render the scene: 
 
-## Day 11: [Suprematism: Supreme walks](https://github.com/paezha/genuary2023/tree/master/2022-01-11_Suprematism)
+```r
+set.seed(seed)
 
-Geometry and limited use of color may not be sufficient to
-algorithmically recreate the supremacy of “pure artistic feeling”. Or
-maybe they are. Who am I to say?
+# Stipulate the point of view; this is where a lot of the work happens, finding parameters that produce pleasing perpsectives
+x_from <- 10 
+z_from <- 100 
+y_from <- 0
 
-<img src="2022-01-11_Suprematism/outputs/supreme-walks-56336370.png" width="500px" />
+render_scene(file = glue::glue("outputs/shadows-{seed}.png"),
+  scene, 
+  parallel = TRUE,
+  ambient_light = TRUE,
+  aperture = 0.01,
+  clamp_value = 2,
+  # This size is callibrated to show the scene; changing it may result in tchanges in the composition
+  width = 2000, 
+  height = 1200,
+  # Mastodon Header
+  #width = 1500, 
+  #height = 500,#1500,
+  # iPhone 11
+  #width = 828, 
+  #height = 1792, 
+  # windows wallpaper
+  #width = 2560, 
+  #height = 1440, 
+  samples = 400, 
+  lookfrom = c(x_from, z_from, y_from),
+  lookat = c(8, 0, 0))
+#> --------------------------Interactive Mode Controls---------------------------
+#> W/A/S/D: Horizontal Movement: | Q/Z: Vertical Movement | Up/Down: Adjust FOV | ESC: Close
+#> Left/Right: Adjust Aperture  | 1/2: Adjust Focal Distance | 3/4: Rotate Environment Light 
+#> P: Print Camera Info | R: Reset Camera |  TAB: Toggle Orbit Mode |  E/C: Adjust Step Size
+#> K: Save Keyframe | L: Reset Camera to Last Keyframe (if set) | F: Toggle Fast Travel Mode
+#> Left Mouse Click: Change Look At (new focal distance) | Right Mouse Click: Change Look At
+```
 
-## Day 12: [Tessellation](https://github.com/paezha/genuary2023/tree/master/2022-01-12_Tessellation)
+<img src="outputs/shadows-86422391.png" alt="plot of chunk unnamed-chunk-10" width="500px" />
 
-Smashing Voronoi.
 
-<img src="2022-01-12_Tessellation/outputs/smashing-tessellations-7914644.png" width="500px" />
-
-## Day 13: [Something I’ve always wanted to learn](https://paezha.github.io/MexBrewer/)
-
-How to submit an `R` package to CRAN. Today I submitted my
-[{MexBrewer}](https://paezha.github.io/MexBrewer/) package to CRAN, and
-now I am waiting the results of the checks.
-
-<img src="2022-01-13_Something-you’ve-always-wanted-to-learn/MexBrewer.png" width="500px" />
-
-UPDATE: Yay!
-
-<https://CRAN.R-project.org/package=MexBrewer>
-
-## Day 14: [Asemic](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic)
-
-Asemic haiku.
-
-<img src="2022-01-14_Aesemic/outputs/asemic-haiku-lr-31693569.png" width="500px" />
-
-## Day 15: [Sine waves](https://github.com/paezha/genuary2023/tree/master/2022-01-15_Sine-waves)
-
-Sinescape.
-
-<img src="2022-01-15_Sine-waves/outputs/sine-wave.png" width="500px" />
-
-## Day 16: [Reflection of a reflection]()
-
-WIP.
-
-## Day 17: [Grid in a grid](https://github.com/paezha/genuary2023/tree/master/2022-01-17_A-grid-inside-a-grid-inside-a-grid)
-
-A grid inside a grid…
-
-<img src="2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-Maiz-65863013.png" width="500px" />
-
-## Day 18: [Definitely not a grid in a grid]()
-
-WIP
-
-## Day 19: [Black and white](https://github.com/paezha/genuary2023/tree/master/2022-01-19_Black-and-white)
-
-Matching Black & White and White & Black images.
-
-<img src="2022-01-19_Black-and-white/outputs/cubescape-b-w-44498798.png" width="500px" />
-
-<img src="2022-01-19_Black-and-white/outputs/cubescape-w-b-44498798.png" width="500px" />
