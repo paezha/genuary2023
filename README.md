@@ -158,3 +158,10 @@ Rayrendering shadows.
 Patterns of interference between three rotating spirals.
 
 <img src="2022-01-23_More-Moire/outputs/more-moire-51730484.gif" width="500px" />
+
+## Day 24: [Textile](https://github.com/paezha/genuary2023/tree/master/2022-01-24_Textile)
+
+Here I use a form of [dithering](https://en.wikipedia.org/wiki/Dither)
+to give an image the aspect of woven art.
+
+<img src="2022-01-24_Textile/outputs/calaverita-2-textile-42988148.png" width="500px" />

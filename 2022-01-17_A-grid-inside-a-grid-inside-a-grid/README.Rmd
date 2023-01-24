@@ -68,7 +68,7 @@ df3 <- expand.grid(x = seq(0, 10, 1/9),
 
 # Render
 
-Randomly select a color palette from package [`MexBrewer`](https://paezha.github.io/MexBrewer/) or [`MetBrewer`]():
+Randomly select a color palette from package [`MexBrewer`](https://CRAN.R-project.org/package=MexBrewer) or [`MetBrewer`](https://CRAN.R-project.org/package=MetBrewer). The color palette will consist of as many colors as columns in the grid:
 ```{r}
 set.seed(seed)
 
@@ -85,7 +85,6 @@ if(color_edition == "MetBrewer"){
 if(sample(c(TRUE, FALSE), 1)){
   col_palette <- rev(col_palette)
 }
-
 ```
 
 Plot:
