@@ -204,3 +204,39 @@ knitr::include_graphics("2022-01-19_Black-and-white/outputs/cubescape-b-w-444987
 # Display image
 knitr::include_graphics("2022-01-19_Black-and-white/outputs/cubescape-w-b-44498798.png")
 ```
+
+## Day 20: [Art Deco]()
+
+WIP
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+#knitr::include_graphics("2022-01-19_Black-and-white/outputs/cubescape-b-w-44498798.png")
+```
+
+## Day 21: [Persian rug]()
+
+WIP
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+#knitr::include_graphics("2022-01-19_Black-and-white/outputs/cubescape-b-w-44498798.png")
+```
+
+## Day 22: [Shadows](https://github.com/paezha/genuary2023/tree/master/2022-01-22_Shadows)
+
+Rayrendering shadows.
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics("2022-01-22_Shadows/outputs/shadows-37843230.png")
+```
+
+## Day 23: [More Moiré](https://github.com/paezha/genuary2023/tree/master/2022-01-23_More-Moire)
+
+Patterns of interference between three rotating spirals.
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics("2022-01-23_More-Moire/outputs/more-moire-51730484.gif")
+```
