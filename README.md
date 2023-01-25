@@ -165,3 +165,10 @@ Here I use a form of [dithering](https://en.wikipedia.org/wiki/Dither)
 to give an image the aspect of woven art.
 
 <img src="2022-01-24_Textile/outputs/calaverita-2-textile-42988148.png" width="500px" />
+
+## Day 25: [Yayoi Kusama](https://github.com/paezha/genuary2023/tree/master/2022-01-25_Yayoi-Kusama)
+
+Circle packing meets simple features meets rayrendering meets Yayoi
+Kusama.
+
+<img src="2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-18751918.png" width="500px" />

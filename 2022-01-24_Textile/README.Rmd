@@ -40,7 +40,7 @@ seed <- sample.int(100000000, 1)
 First, read the image using `imager::load.image()`. Some of the images are courtesy of my talented cousin [Dolores Robles Martinez](https://www.instagram.com/doloresrobles_m/?hl=en)::
 ```{r}
 # Name of the image
-im_name <- "calaverita-2"
+im_name <- "trompo"
 # Read named image
 im <- load.image(glue::glue(here::here(), "/2022-01-24_Textile/inputs/{im_name}.jpg"))
 ```

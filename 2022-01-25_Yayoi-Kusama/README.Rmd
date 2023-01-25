@@ -17,8 +17,9 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
+This system draws inspiration from Yayoi Kusama's [Infinty Mirrors](https://ago.ca/exhibitions/kusama) and circles, circles, circles! It combines a circle packing technique with rayrendering, and it makes use of some of my favorite `R` packages: [{ggplot}](https://ggplot2.tidyverse.org/), [{MetBrewer}](https://github.com/BlakeRMills/MetBrewer), and [{sf}](https://r-spatial.github.io/sf/).
 
-For this piece I use the following packages:
+Begin by loading the packages:
 ```{r setup}
 library(dplyr) # A Grammar of Data Manipulation
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
@@ -26,8 +27,8 @@ library(glue) # Interpreted String Literals
 library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
 library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
 library(rayrender) # Create Maps and Visualize Data in 2D and 3D
-library(sf)
-library(tidyr)
+library(sf) # Simple Features for R
+library(tidyr) # Tidy Messy Data
 ```
 
 ## Generate a random seed
@@ -38,6 +39,7 @@ seed <- sample.int(100000000, 1)
 
 ## Circle packing
 
+This is my circle-packing algorithm. It takes a simple features polygon `p` as an input, and the parameters for the circles (maximum number of circles, maximum and minimum radii):
 ```{r circle-packing-function}
 st_circle_packer <- function(p, max_circles = 100, max_radius = 1, min_radius = 0.1){
   
@@ -134,7 +136,7 @@ st_circle_packer <- function(p, max_circles = 100, max_radius = 1, min_radius = 
 }
 ```
 
-Crear polígono para la imagen:
+In this chunk I create a polygon. I choose randomly between a square or a circle:
 ```{r container}
 set.seed(seed)
 
@@ -168,7 +170,7 @@ if(style == "Square"){
 }
 ```
 
-Empacar la secuencia de círculos:
+The polygon is then fed to the circle packing function. The parameters are chosen at random:
 ```{r pack-circ}
 # Set random seed
 set.seed(seed)
@@ -180,25 +182,27 @@ circles <- container_polygon |>
                    min_radius = runif(1, 0.01, 0.05))
 ```
 
-
+This is the result of the packing algorithm:
 ```{r}
 ggplot2::ggplot() + 
   geom_sf(data = circles)
 ```
 
+Here, I retrieve the coordinates of the centroids of the circles:
 ```{r retrieve-coordinates}
 coords <- circles |>
   st_centroid() |>
   st_coordinates()
 ```
 
+The coordinates of the circles are then added to the data frame:
 ```{r add-coordinates}
 df <- circles |>
   mutate(x = coords[,1], 
          y = coords[,2])
 ```
 
-Randomly select a color palette from package [`MexBrewer`](https://CRAN.R-project.org/package=MexBrewer) or [`MetBrewer`](https://CRAN.R-project.org/package=MetBrewer). The color palette will consist of as many colors as columns in the grid:
+Next, I randomly select a color palette from package [`MexBrewer`](https://CRAN.R-project.org/package=MexBrewer) or [`MetBrewer`](https://CRAN.R-project.org/package=MetBrewer). The color palette will consist of as many colors as circles in the system:
 ```{r choose-color-palette}
 set.seed(seed)
 
@@ -216,26 +220,43 @@ if(color_edition == "MetBrewer"){
 
 ```
 
-Next, I create a data frame with the parameters for the position, radius, and height of the columns. The position in x is on the plane (left-right), y is the vertical axis, and z is on the plane (front-back). The element used for the columns is essentially a plane (no depth) and the dimensions are given by parameters `xwidth` and `ywidth`. Given the effect I wish to achieve, the center of this thin element will be centered on $y = 5$. The height of the columns should be at least twice this value to ensure that the columns are not "floating". Also, an angle can be used to rotate the thin plane on any of the three axes. Here, the angle will be for a rotation on the y-axis (vertical). In this data frame, the chosen color palette is also used to assign colors either at random or sorted (as an alternative the colors could be a function of position, angle, or other attribute of the columns):
+A color scheme is chosen at random. In one scheme, the colors are assigned purely at random to the circles. In the second one the colors are assigned by size. The thirds scheme assigns colors based on position:
 ```{r add-colors}
 set.seed(seed)
 
 # Choose at random whether to randomize or sort the colors
 color_scheme <- sample(c("Random", 
-                         "Sorted"), 
+                         "Size",
+                         "Position"), 
                        1)
 
 # Add the coloring scheme
 if(color_scheme == "Random"){
   df <- df |>
     mutate(color = sample(col_palette, n(), replace = TRUE))
-}else if(color_scheme == "Sorted"){
-  df <- df |> arrange(r) |>
+}else if(color_scheme == "Size"){
+  df <- df |> 
+    arrange(r) |>
+    mutate(color = col_palette)
+}else if(color_scheme == "Position"){
+  df <- df |>
+    mutate(position = x^sample.int(3, 1) + y^sample.int(3, 1)) |>
+    arrange(position) |>
     mutate(color = col_palette)
 }
 ```
 
-Here I initialize an empty data frame and then use `df` to populate the parameters that go into `rayrender::sphere()`  to create the thin planes that become my "columns". The material of the columns is chosen at random:
+This is the coloring of the circles:
+```{r}
+ggplot() +
+  geom_sf(data = df,
+          aes(fill = color)) +
+  scale_fill_identity()
+```
+
+# Rayrendering
+
+For the next step, I will take the circles and use them to define spheres for rayrendering. I create a data frame with the parameters for the position and radius of the spheres. The position in x is on the plane (left-right), y is the vertical axis, and z is on the plane (front-back). Here I initialize an empty data frame and then use `df` to populate the parameters that go into `rayrender::sphere()`  to create the thin planes that become my "columns". The material of the spheres is chosen at random:
 ```{r create-objects}
 set.seed(seed)
 
@@ -273,13 +294,13 @@ if(material == "Diffuse"){
 }
 ```
 
-In this chunk of code, the scene for the rayrendering is initialized. The color of the ground is chosen randomly from the color palette in use:
+In this chunk of code, the scene for the rayrendering is initialized. The color of the ground is set to black:
 ```{r initialize-scene}
 scene <- generate_ground(spheresize = 100000,
                          material = diffuse(color = "black"))
 ```
 
-After initializing the scene, it is now possible to add the objects (i.e., the columns). Also, I like to include either one or two source of light with random position:
+After initializing the scene, it is now possible to add the objects (i.e., the spheres). Also, I like to include either one or two source of light with random position:
 ```{r add-objects-to-scene}
 set.seed(seed)
 
@@ -330,8 +351,6 @@ if(n_lights == "One"){
 
 Render the scene: 
 ```{r plot}
-set.seed(seed)
-
 # Stipulate the point of view; this is where a lot of the work happens, finding parameters that produce pleasing perpsectives
 x_from <- 1.0 
 z_from <- 15 
@@ -365,5 +384,6 @@ render_scene(file = glue::glue("outputs/{material}-{col_palette_name}-{n_lights}
 # Display image
 knitr::include_graphics(glue("outputs/{material}-{col_palette_name}-{n_lights}-{seed}.png"))
 ```
+
 
 

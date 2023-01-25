@@ -1,39 +1,43 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-
 
 # My kid could have done that
 
 <!-- badges: start -->
-
 <!-- badges: end -->
-
 
 For this piece I use the following packages:
 
-```r
+``` r
 library(dplyr) # A Grammar of Data Manipulation
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals
 library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
 library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
+#> Registered S3 method overwritten by 'MexBrewer':
+#>   method        from     
+#>   print.palette MetBrewer
 #library(tidyr)
 ```
 
-
 ## Generate a random seed
 
-
-```r
+``` r
 seed <- sample.int(100000000, 1)
+#seed <- 8336784
 ```
 
+``` r
+set.seed(seed)
 
-```r
 n_sine <- sample.int(4, 1)
 
 A <- runif(n_sine, 0, 2 * pi)
@@ -41,10 +45,9 @@ f <- runif(n_sine, 1, 5)
 phi <- runif(n_sine, 0, 2 * pi)
 ```
 
-
-```r
+``` r
 T_f <- 1
-n_t <- 6000
+n_t <- 100
 
 t <- seq(0, T_f * 2 * pi, length = T_f * n_t)
 
@@ -86,27 +89,51 @@ l <- runif(1, 0.05, 0.15) * l
 l_r <- runif(nrow(df), 0.90, 1.10)
 
 # df <- df |>
-#   mutate(xstart =  x - l_r * l * cos(theta * runif(n(), 0.97, 1.03)),
-#          ystart = y - l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
-#          xend = x + l_r * l * cos(theta * runif(n(), 0.97, 1.03)),
-#          yend = y + l_r * l * sin(theta * runif(n(), 0.97, 1.03)))
+#   mutate(xstart =  x + l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
+#          ystart = y + l_r * l * cos(theta * runif(n(), 0.97, 1.03)),
+#          xend = x - l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
+         # yend = y - l_r * l * cos(theta * runif(n(), 0.97, 1.03)))
 
 df <- df |>
-  mutate(xstart =  x + l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
-         ystart = y + l_r * l * cos(theta * runif(n(), 0.97, 1.03)),
-         xend = x - l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
-         yend = y - l_r * l * cos(theta * runif(n(), 0.97, 1.03)))
+  mutate(xstart =  x - l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
+         ystart = y - l_r * l * cos(theta * runif(n(), 0.97, 1.03)),
+         xend = x + l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
+         yend = y + l_r * l * cos(theta * runif(n(), 0.97, 1.03)))
 ```
 
+Randomly select a color palette from package
+[`MexBrewer`](https://CRAN.R-project.org/package=MexBrewer) or
+[`MetBrewer`](https://CRAN.R-project.org/package=MetBrewer).
 
-```r
+``` r
+set.seed(seed)
+
+color_edition <- sample(c("Monotone", "MetBrewer", "MexBrewer"), 1)
+
+if(color_edition == "Monotone"){
+  col_palette <- c("white", "grey", "grey20")
+}else if(color_edition == "MetBrewer"){
+  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+  col_palette <- met.brewer(col_palette_name, n = 3)
+}else if(color_edition == "MexBrewer"){
+  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+  col_palette <- mex.brewer(col_palette_name, n = 3)
+}
+
+if(sample(c(TRUE, FALSE), 1)){
+  col_palette <- rev(col_palette)
+}
+```
+
+``` r
 ggplot(data = df) + 
   geom_segment(aes(x = x, y = y,
                    xend = xstart, yend = ystart,
                    #alpha = theta
   ),
   alpha = 0.25,
-  color = "gray",
+  color = col_palette[2],
+  #color = "gray",
   linewidth = 0) +
   geom_segment(aes(x = x, y = y,
                    xend = xend, yend = yend,
@@ -117,16 +144,20 @@ ggplot(data = df) +
   linewidth = 0) +
   geom_path(aes(x = x,
                 y = y),
-            color = "white") +
+            color = col_palette[1]
+            #color = "white"
+              ) +
   coord_equal() +
   theme_void() +
   theme(plot.background = element_rect(color = NA,
-                                       fill = "gray20"))
+                                       fill = col_palette[3]
+                                       #fill = "gray20"
+                                         ))
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-```r
+``` r
 
 if(x_range > y_range){
   # Save plot
@@ -137,19 +168,18 @@ if(x_range > y_range){
   ggsave(filename = glue::glue("outputs/meandering-paths-{seed}.png"),
          height = 7)
 }
-#> Saving 7 x 7 in image
+#> Saving 7 x 5 in image
 ```
 
-
-
-```r
+``` r
 ggplot(data = df) + 
   geom_segment(aes(x = x, y = y,
                    xend = xstart, yend = ystart,
                    #alpha = theta
   ),
   alpha = 0.25,
-  color = "gray",
+  color = col_palette[2],
+  #color = "gray",
   linewidth = 0) +
   geom_segment(aes(x = x, y = y,
                    xend = xend, yend = yend,
@@ -160,23 +190,23 @@ ggplot(data = df) +
   linewidth = 0) +
   geom_path(aes(x = x,
                 y = y),
-            color = "white") +
+            color = col_palette[1]
+            #color = "white"
+              ) +
   coord_polar() +
   theme_void() +
   theme(plot.background = element_rect(color = NA,
-                                       fill = "gray20"))
+                                       fill = col_palette[3]
+                                       #fill = "gray20"
+                                         ))
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-```r
+``` r
 
 # Save plot
   ggsave(filename = glue::glue("outputs/meandering-paths-polar-{seed}.png"),
          height = 7,
          width = 7)
 ```
-
-
-
-
