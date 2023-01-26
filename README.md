@@ -178,4 +178,4 @@ Kusama.
 Sinuous meandering patterns that resemble the monsters that my son used
 to draw when he was little.
 
-<img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-72459273.png" width="500px" />
+<img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-18919051.png" width="500px" />

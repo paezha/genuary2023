@@ -11,7 +11,7 @@ some monsters that were all spirals, spikes, huge bug-eyes, and lots and
 lots of skinny legs.
 
 The sinuous meander paths of [David
-Chappelle](doi.org/10.1080/17513472.2015.1092859) may have been inspired
+Chappell](doi.org/10.1080/17513472.2015.1092859) may have been inspired
 by the mathematics used to represent the geomorphology of streams, but
 to me many of the outputs look like the awesome monsters that my son
 used to draw as a child.
@@ -75,8 +75,8 @@ t <- seq(0, T_f * 2 * pi, length = T_f * n_t)
 
 Select the starting point of the meander and an index value. Use these
 to initialize a data frame. The angle ($theta$ or $\theta$) is the
-tangent of the meander at $t$ with respect to the x-axis (see
-Chappelle).
+tangent of the meander at $t$ with respect to the x-axis (see Chappell,
+p. 63).
 
 ``` r
 # Starting point of the path
@@ -244,7 +244,7 @@ if(x_range > y_range){
 #> Saving 7 x 7 in image
 ```
 
-<img src="outputs/meandering-paths-72459273.png" width="500px" />
+<img src="outputs/meandering-paths-40763158.png" width="500px" />
 
 Some paths are interesting when plotted in polar coordinates, but some
 look like unattractive messes. This is the code to plot in polar

@@ -15,11 +15,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+
 <!-- badges: end -->
 
 When my son Leo was little, he had an amazing drawing style. He made some monsters that were all spirals, spikes, huge bug-eyes, and lots and lots of skinny legs.
 
-The sinuous meander paths of [David Chappelle](doi.org/10.1080/17513472.2015.1092859) may have been inspired by the mathematics used to represent the geomorphology of streams, but to me many of the outputs look like the awesome monsters that my son used to draw as a child.
+The sinuous meander paths of [David Chappell](doi.org/10.1080/17513472.2015.1092859) may have been inspired by the mathematics used to represent the geomorphology of streams, but to me many of the outputs look like the awesome monsters that my son used to draw as a child.
 
 For this piece I use the following packages:
 ```{r setup}
@@ -62,7 +63,7 @@ n_t <- 12000
 t <- seq(0, T_f * 2 * pi, length = T_f * n_t)
 ```
 
-Select the starting point of the meander and an index value. Use these to initialize a data frame. The angle ($theta$ or $\theta$) is the tangent of the meander at $t$ with respect to the x-axis (see Chappelle).
+Select the starting point of the meander and an index value. Use these to initialize a data frame. The angle ($theta$ or $\theta$) is the tangent of the meander at $t$ with respect to the x-axis (see Chappell, p. 63).
 ```{r}
 # Starting point of the path
 x <- 0  

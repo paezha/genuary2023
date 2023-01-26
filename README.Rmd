@@ -265,6 +265,6 @@ Sinuous meandering patterns that resemble the monsters that my son used to draw 
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics("2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-72459273.png")
+knitr::include_graphics("2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-18919051.png")
 ```
 
