@@ -172,3 +172,10 @@ Circle packing meets simple features meets rayrendering meets Yayoi
 Kusama.
 
 <img src="2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-18751918.png" width="500px" />
+
+## Day 26: [My kid could have done that](https://github.com/paezha/genuary2023/tree/master/2022-01-26_My-kid-could-have-done-that)
+
+Sinuous meandering patterns that resemble the monsters that my son used
+to draw when he was little.
+
+<img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-72459273.png" width="500px" />
