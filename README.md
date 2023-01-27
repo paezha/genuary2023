@@ -179,9 +179,12 @@ Sinuous meandering patterns that resemble the monsters that my son used
 to draw when he was little.
 
 <img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-18919051.png" width="500px" />
+<<<<<<< HEAD
 
 ## Day 27: [Hilma af Klint](https://github.com/paezha/genuary2023/tree/master/2022-01-27_Hilma-Af-Klint)
 
 Inspired by The Swan.
 
 <img src="2022-01-27_Hilma-Af-Klint/outputs/hilda-af-klint-Casita1-26193853.png" width="500px" />
+=======
+>>>>>>> a2b654e825699c781a13d36610d48fa15ef9f5c9
