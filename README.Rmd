@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 # genuary2023
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 This repository is for [genuary2023](https://genuary.art/), a month of generative art. A great opportunity to learn something new coding-wise, while indulging in some Rtistry.
@@ -252,17 +253,7 @@ knitr::include_graphics("2022-01-24_Textile/outputs/calaverita-2-textile-4298814
 
 ## Day 25: [Yayoi Kusama](https://github.com/paezha/genuary2023/tree/master/2022-01-25_Yayoi-Kusama)
 
-Circle packing meets simple features meets rayrendering meets Yayoi Kusama.
-
-```{r echo=FALSE, out.width="500px"}
-# Display image
-knitr::include_graphics("2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-18751918.png")
-```
-
-
-## Day 25: [Yayoi Kusama](https://github.com/paezha/genuary2023/tree/master/2022-01-25_Yayoi-Kusama)
-
-Circle packing meets simple features meets rayrendering meets Yayoi Kusama.
+Simple features meets circle packing meets rayrendering meets Yayoi Kusama.
 
 ```{r echo=FALSE, out.width="500px"}
 # Display image

@@ -1,46 +1,56 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 # Hilma af Klint
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-Hilma af Klint was a woman ahead of her times. Her abstract work predates that of Kandinski, Mondrian, and Malevitch.
+Hilma af Klint was a woman ahead of her times. Her abstract work
+predates that of Kandinski, Mondrian, and Malevitch.
 
-For this piece, I draw inspiration from [Svanen](https://en.wikipedia.org/wiki/Hilma_af_Klint#/media/File:Hilma_af_Klint,_1915,_Svanen,_No._17.jpg) (The Swan). Despite the abstraction and apparent simplicity, this piece is full of symbolism: duality, inner and outer elements, sharing, communion and separation, and hard and soft.
+For this piece, I draw inspiration from
+[Svanen](https://en.wikipedia.org/wiki/Hilma_af_Klint#/media/File:Hilma_af_Klint,_1915,_Svanen,_No._17.jpg)
+(The Swan). Despite the abstraction and apparent simplicity, this piece
+is full of symbolism: duality, inner and outer elements, sharing,
+communion and separation, and hard and soft.
 
 In this notebook I use the following packages:
-```{r setup}
+
+``` r
 library(dplyr) # A Grammar of Data Manipulation
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals 
 library(lwgeom) # Bindings to Selected 'liblwgeom' Functions for Simple Features
+#> Linking to liblwgeom 3.0.0beta1 r16016, GEOS 3.9.1, PROJ 7.2.1
 library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art
 library(MexBrewer) # Color Palettes Inspired by Works of Mexican Painters and Muralists
+#> Registered S3 method overwritten by 'MexBrewer':
+#>   method        from     
+#>   print.palette MetBrewer
 library(sf) # Simple Features for R
+#> Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 ```
 
 ## Generate a random seed
 
-```{r}
+``` r
 seed <- sample.int(100000000, 1)
 ```
 
 # Create primitive polygons
 
 Create a triangle:
-```{r}
+
+``` r
 triangle <- matrix(c(-0.05, -0.05 * tan(pi/6), 
                      0, 0.05 * tan(pi/3) - 0.05 * tan(pi/6), 
                      0.05, -0.05 * tan(pi/6),  
@@ -56,7 +66,8 @@ triangle <- data.frame(id = 1,
 ```
 
 Create circles:
-```{r}
+
+``` r
 center <- data.frame(x = 0, y = 0) |>
   st_as_sf(coords = c("x", "y"))
 
@@ -68,13 +79,13 @@ circle_2 <- center |>
 
 circle_3 <- center |>
   st_buffer(dist = 0.75)
-
 ```
 
 ## Create blade
 
 Create a blade to split the primitive geometries:
-```{r}
+
+``` r
 blade <- matrix(c(0, -1,#2 + sqrt(4^2 - 2^2)/2,
                   0, 1), #2 + sqrt(4^2 - 2^2)/2),
                 nrow = 2,
@@ -88,7 +99,8 @@ blade <- data.frame(id = 1,
 ```
 
 Plot the primitive polygons and blade:
-```{r}
+
+``` r
 ggplot() + 
   geom_sf(data = circle_3,
           fill = "blue") + 
@@ -101,8 +113,12 @@ ggplot() +
   geom_sf(data = blade)
 ```
 
-Create data frames for the "texture" (thin segments to resemble brushwork):
-```{r}
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+Create data frames for the “texture” (thin segments to resemble
+brushwork):
+
+``` r
 set.seed(seed)
 
 df <- data.frame(theta = runif(12000, 0, 2*pi) |> sort()) |>
@@ -129,7 +145,8 @@ df2 <- data.frame(theta = runif(12000, 0, 2*pi) |> sort()) |>
 ```
 
 Split the primitive geometries:
-```{r}
+
+``` r
 triangle_2 <- triangle |>
   st_split(blade) |>
   st_collection_extract(c("POLYGON"))
@@ -149,7 +166,8 @@ circle_32 <- circle_3 |>
 ```
 
 Choose a color palette at random:
-```{r}
+
+``` r
 set.seed(seed)
 
 color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
@@ -165,11 +183,12 @@ if(color_edition == "MetBrewer"){
 if(sample(c(TRUE, FALSE), 1)){
   col_palette <- rev(col_palette)
 }
-
 ```
 
-Add color values to the data frames with the primitive geometries and strokes:
-```{r}
+Add color values to the data frames with the primitive geometries and
+strokes:
+
+``` r
 set.seed(seed)
 
 df <- df |>
@@ -194,7 +213,8 @@ circle_3 <- circle_32 |>
 ## Render
 
 Plot and save:
-```{r}
+
+``` r
 p <- ggplot() + 
   geom_sf(data = circle_3,
           aes(fill = fill),
@@ -247,13 +267,7 @@ ggsave(p,
        filename = glue::glue("outputs/hilda-af-klint-{col_palette_name}-{seed}.png"),
        #height = 7,
        width = 7)
+#> Saving 7 x 5 in image
 ```
 
-```{r echo=FALSE, out.width="500px"}
-# Display image
-knitr::include_graphics(glue::glue("outputs/hilda-af-klint-{col_palette_name}-{seed}.png"))
-```
-
-
-
-
+<img src="outputs/hilda-af-klint-Signac-50273448.png" width="500px" />

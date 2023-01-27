@@ -168,14 +168,7 @@ to give an image the aspect of woven art.
 
 ## Day 25: [Yayoi Kusama](https://github.com/paezha/genuary2023/tree/master/2022-01-25_Yayoi-Kusama)
 
-Circle packing meets simple features meets rayrendering meets Yayoi
-Kusama.
-
-<img src="2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-18751918.png" width="500px" />
-
-## Day 25: [Yayoi Kusama](https://github.com/paezha/genuary2023/tree/master/2022-01-25_Yayoi-Kusama)
-
-Circle packing meets simple features meets rayrendering meets Yayoi
+Simple features meets circle packing meets rayrendering meets Yayoi
 Kusama.
 
 <img src="2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-18751918.png" width="500px" />
