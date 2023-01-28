@@ -1,37 +1,66 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 # Generative poetry
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-None of the forms of generative poetry that I could think of were appealing or feasible for a quick project. According to [Lamb et al.](https://doi.org/10.1080/17513472.2017.1373561), generative poetry techniques range from _mere generation_, through _human enhancement_, to _computer enhancement_, depending on how big the role of the computer is.
+None of the forms of generative poetry that I could think of were
+appealing or feasible for a quick project. According to [Lamb et
+al.](https://doi.org/10.1080/17513472.2017.1373561), generative poetry
+techniques range from *mere generation*, through *human enhancement*, to
+*computer enhancement*, depending on how big the role of the computer
+is.
 
-The idea of mere generation was not appealing - pushing words together is not as simple or as aesthetically pleasing as pushing lines or squares together. Also, with developments in Generative Pre-Trained models (GPT), including ChatGPT, I am uncomfortable using a technique that mashes up the words of others without proper credit. Other alternatives crossed some sort of line between generative and computer assisted for me.
+The idea of mere generation was not appealing - pushing words together
+is not as simple or as aesthetically pleasing as pushing lines or
+squares together. Also, with developments in Generative Pre-Trained
+models (GPT), including ChatGPT, I am uncomfortable using a technique
+that mashes up the words of others without proper credit. Other
+alternatives crossed some sort of line between generative and computer
+assisted for me.
 
-So instead of mashing up the words of others, or getting assistance from a computer with my own words, I decided to revisit my system of [asemic glyphs](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic). 
+So instead of mashing up the words of others, or getting assistance from
+a computer with my own words, I decided to revisit my system of [asemic
+glyphs](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic).
 
-I was not super happy with the aspect of the glyphs that I had created before. Creating splines with points at random produced glyphs that were convoluted and not very elegant in my opinion. [Pierre Casadebaig](https://github.com/picasa/generative_examples) has a beautiful system that [hunts for attractors](https://github.com/picasa/generative_examples/blob/master/R/attractors_collection.rmd), which is a computationally more complex procedure than just randomly sampling control points in a defined space.
+I was not super happy with the aspect of the glyphs that I had created
+before. Creating splines with points at random produced glyphs that were
+convoluted and not very elegant in my opinion. [Pierre
+Casadebaig](https://github.com/picasa/generative_examples) has a
+beautiful system that [hunts for
+attractors](https://github.com/picasa/generative_examples/blob/master/R/attractors_collection.rmd),
+which is a computationally more complex procedure than just randomly
+sampling control points in a defined space.
 
-Something I discovered in the course of Genuary2023 is that I could "enhance" the aspect of my asemic glyphs by introducing "accents", that is, designed "strokes" that could be used in combination with the randomly generated splines. But then, the most pleasing part of that system were the "accents" not the glyphs!
+Something I discovered in the course of Genuary2023 is that I could
+“enhance” the aspect of my asemic glyphs by introducing “accents”, that
+is, designed “strokes” that could be used in combination with the
+randomly generated splines. But then, the most pleasing part of that
+system were the “accents” not the glyphs!
 
-So I decided to experiment with those "accents". Instead of generating glyphs at random, I thought I could design a few "accents" or strokes, and then combine them at random to generate the glyphs. The end result is a system that resembles the calligraphy of Eastern Asian scripts, and that I find more aesthetically pleasing than my earlier efforts with asemic scripts.
+So I decided to experiment with those “accents”. Instead of generating
+glyphs at random, I thought I could design a few “accents” or strokes,
+and then combine them at random to generate the glyphs. The end result
+is a system that resembles the calligraphy of Eastern Asian scripts, and
+that I find more aesthetically pleasing than my earlier efforts with
+asemic scripts.
 
 Begin by loading the packages used in this notebook:
-```{r setup}
+
+``` r
 library(dplyr) # A Grammar of Data Manipulation
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 library(ggforce) # Accelerating 'ggplot2'
+#> Loading required package: ggplot2
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals
 library(stringr) # Simple, Consistent Wrappers for Common String Operations
@@ -40,14 +69,19 @@ library(tidyr) # Tidy Messy Data
 
 ## Generate a random seed
 
-```{r}
+``` r
 seed <- sample.int(100000000, 1)
 ```
 
 ## Create a set of glyphs
 
-Set the parameters for creating the glyphs, that is, the number of glyphs (corresponding to letters), the number of points to generate each glyph (used by the splines function), and the cutoff for the thickness of the lines; notice that special characters are added to the set of letters:
-```{r}
+Set the parameters for creating the glyphs, that is, the number of
+glyphs (corresponding to letters), the number of points to generate each
+glyph (used by the splines function), and the cutoff for the thickness
+of the lines; notice that special characters are added to the set of
+letters:
+
+``` r
 #set.seed(seed)
 
 l <- c(letters, "'", "-", ":", "?", "(", ")") 
@@ -55,7 +89,8 @@ n_glyphs <- length(l) # Number of letters/glyphs
 ```
 
 Create strokes:
-```{r}
+
+``` r
 
 strokes <- c("stroke1", "stroke2", "stroke3", "stroke4", "stroke5", "stroke6", "stroke7", "stroke8", "stroke9")
 n_strokes <- length(strokes)
@@ -103,7 +138,8 @@ strokes$size <- rep(c(0.1, 0.3, 0.5, 0.7), n_strokes)
 ```
 
 Plot individual strokes:
-```{r}
+
+``` r
 strokes |> 
   mutate(x = as.numeric(stroke),
          rx = rx + x) |>
@@ -118,11 +154,15 @@ strokes |>
   scale_linewidth(range = c(0.2,2)) +
   ylim(c(0, 1)) +
   coord_equal()
-
 ```
 
-The strokes are not random. But they are used to randomly create asemic glyphs. Here, I select number of glyphs and randomly choose 1) the number of strokes; and 2) the strokes for the glyphs:
-```{r}
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+The strokes are not random. But they are used to randomly create asemic
+glyphs. Here, I select number of glyphs and randomly choose 1) the
+number of strokes; and 2) the strokes for the glyphs:
+
+``` r
 set.seed(seed)
 
 glyphs <-  data.frame(glyph = 1:n_glyphs) |>
@@ -148,14 +188,16 @@ glyphs <-  data.frame(glyph = 1:n_glyphs) |>
 ```
 
 Join strokes to glyphs:
-```{r}
+
+``` r
 glyphs <- glyphs |>
   left_join(strokes,
             by = "stroke")
 ```
 
-Generate a test "text" by choosing number of rows and number of columns:
-```{r}
+Generate a test “text” by choosing number of rows and number of columns:
+
+``` r
 set.seed(seed)
 
 n_row <- 8
@@ -178,7 +220,8 @@ text <- expand.grid(x = seq(0, n_row, 1), y = seq(n_col, 0, -1)) |>
 ```
 
 Plot test text:
-```{r}
+
+``` r
 text  |>
   ggplot() +
   geom_bspline2(aes(x = rx, 
@@ -201,10 +244,14 @@ text  |>
   theme(legend.position = "none")
 ```
 
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
 ## Use poem
 
-Data frame with text (poem by Lady [Ono no Komachi](https://allpoetry.com/Visible-colours)):
-```{r}
+Data frame with text (poem by Lady [Ono no
+Komachi](https://allpoetry.com/Visible-colours)):
+
+``` r
 tanka <- data.frame(text = c("Visible colours", 
                              "(Invisible passions)", 
                              "Fade from", 
@@ -216,7 +263,8 @@ tanka <- data.frame(text = c("Visible colours",
 ```
 
 Prepare text:
-```{r}
+
+``` r
 #find the maximum width of a line in number of characters
 pad <- max(str_length(tanka$text))
 
@@ -229,8 +277,10 @@ cols <- nrow(tanka)
 
 ## Join text to glyphs
 
-Convert text to single characters and add the coordinates to place the glyphs in the block of text:
-```{r}
+Convert text to single characters and add the coordinates to place the
+glyphs in the block of text:
+
+``` r
 set.seed(seed)
 
 # These sequences are for right-left, top-down writing. Select the spacing between columns:
@@ -251,12 +301,12 @@ atext <- data.frame(x = rep(seq(s_cols * cols, s_cols * 1, -s_cols), each = pad)
          ry = y + ry + runif(n(), 0.95, 1.05),
          size = 3 * size * runif(n(), 0.95,1.05)) |>
   drop_na()
-
-
 ```
 
-Parameters for saving the image. Find the dimensions of the plot and set the size for saving accordingly:
-```{r}
+Parameters for saving the image. Find the dimensions of the plot and set
+the size for saving accordingly:
+
+``` r
 # Find the x and y extents
 x_range <- max(atext$x) - min(atext$x)
 y_range <- max(atext$y) - min(atext$y)
@@ -273,8 +323,10 @@ if(x_range > y_range){
 }
 ```
 
-Plot. Here I go for a minimalist black and white look, but could experiment later with high contrast combinations of colors:
-```{r fig.show='hide'}
+Plot. Here I go for a minimalist black and white look, but could
+experiment later with high contrast combinations of colors:
+
+``` r
 atext |>
   #slice_head(n = 73) |>
   ggplot() +
@@ -299,24 +351,17 @@ width = w,
 units = "in")
 ```
 
-```{r echo=FALSE, out.width="500px"}
-# Display image
-knitr::include_graphics(glue::glue("outputs/asemic-poetry-{seed}.png"))
-```
+<img src="outputs/asemic-poetry-60508818.png" width="500px" />
 
-Here is the same poem written in various randomly generated asemic scripts using the same 9 strokes defined above.
+Here is the same poem written in various randomly generated asemic
+scripts using the same 9 strokes defined above.
 
 > Visible colours  
-(Invisible passions)  
-Fade from  
-This world's  
-Human hearts  
-And flowers.  
-> Lady Ono no Komachi (c. 825 - c. 900)
+> (Invisible passions)  
+> Fade from  
+> This world’s  
+> Human hearts  
+> And flowers.  
+> Lady Ono no Komachi (c. 825 - c. 900)
 
-```{r echo=FALSE, out.width="225px"}
-# Display image
-knitr::include_graphics(c(glue::glue("outputs/asemic-poetry-59992805.png"),
-                          glue::glue("outputs/asemic-poetry-38750804.png"),
-                          glue::glue("outputs/asemic-poetry-86279955.png")))
-```
+<img src="outputs/asemic-poetry-59992805.png" width="225px" /><img src="outputs/asemic-poetry-38750804.png" width="225px" /><img src="outputs/asemic-poetry-86279955.png" width="225px" />

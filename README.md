@@ -185,3 +185,18 @@ to draw when he was little.
 Inspired by The Swan.
 
 <img src="2022-01-27_Hilma-Af-Klint/outputs/hilda-af-klint-Casita1-26193853.png" width="500px" />
+
+## Day 28: [Generative poetry](https://github.com/paezha/genuary2023/tree/master/2022-01-28_Generative-Poetry)
+
+A poem by [Lady Ono no
+Komachi](https://en.wikipedia.org/wiki/Ono_no_Komachi) (c. 825 - c. 900)
+written in randomly generated asemic glyphs:
+
+> Visible colours  
+> (Invisible passions)  
+> Fade from  
+> This world’s  
+> Human hearts  
+> And flowers.
+
+<img src="2022-01-28_Generative-Poetry/outputs/asemic-poetry-70563873.png" width="500px" />
