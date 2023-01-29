@@ -294,3 +294,12 @@ And flowers.
 knitr::include_graphics("2022-01-28_Generative-Poetry/outputs/asemic-poetry-70563873.png")
 ```
 
+## Day 29: [Maximalism: _Pluribus unum Multorum chaos_](https://github.com/paezha/genuary2023/tree/master/2022-01-29_Maximalism)
+
+For this prompt I looked into Chinese Maximalism, and the work of the work of [Xu Hongming](https://www.wikiart.org/en/xu-hongming). This piece (that I call _Pluribus unum Multorum chaos_) is inspired by Hongming's ["Human Condition One"](https://www.wikiart.org/en/xu-hongming/-1994) (人态一 : Rén tài yī)
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics("2022-01-29_Maximalism/outputs/pluribus-unum-multorum-chaos-20812715.png")
+```
+

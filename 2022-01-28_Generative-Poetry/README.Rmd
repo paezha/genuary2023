@@ -99,6 +99,13 @@ strokes$ry <- c(0.30, 0.70, 0.70, 0.20,
 #                 runif(4, 0.8, 0.9),
 #                 runif(4, 0.0, 1))
 
+
+# stroke3 <- data.frame(theta = seq(3 * pi/2, 7 * pi/2, length = 10)) |>
+#   mutate(id = 1:n(),
+#          rx = 0.65 + 0.4 * (0.0065 * id) * cos(theta),
+#          ry = 0.65 + 0.4 * (0.0055 * id) * sin(theta),
+#          size = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9))
+
 strokes$size <- rep(c(0.1, 0.3, 0.5, 0.7), n_strokes)
 ```
 

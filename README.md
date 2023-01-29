@@ -200,3 +200,14 @@ written in randomly generated asemic glyphs:
 > And flowers.
 
 <img src="2022-01-28_Generative-Poetry/outputs/asemic-poetry-70563873.png" width="500px" />
+
+## Day 29: [Maximalism: *Pluribus unum Multorum chaos*](https://github.com/paezha/genuary2023/tree/master/2022-01-29_Maximalism)
+
+For this prompt I looked into Chinese Maximalism, and the work of the
+work of [Xu Hongming](https://www.wikiart.org/en/xu-hongming). This
+piece (that I call *Pluribus unum Multorum chaos*) is inspired by
+Hongming’s [“Human Condition
+One”](https://www.wikiart.org/en/xu-hongming/-1994) (人态一 : Rén tài
+yī)
+
+<img src="2022-01-29_Maximalism/outputs/pluribus-unum-multorum-chaos-20812715.png" width="500px" />
