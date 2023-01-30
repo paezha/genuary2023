@@ -211,3 +211,9 @@ One”](https://www.wikiart.org/en/xu-hongming/-1994) (人态一 : Rén tài
 yī)
 
 <img src="2022-01-29_Maximalism/outputs/pluribus-unum-multorum-chaos-20812715.png" width="500px" />
+
+## Day 30: [Minimalism](https://github.com/paezha/genuary2023/tree/master/2022-01-30_Minimalism)
+
+Three lines, three or four colors.
+
+<img src="2022-01-30_Minimalism/outputs/dunes-Maiz-37040510-50815853.png" width="500px" />

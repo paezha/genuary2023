@@ -1,0 +1,175 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Minimalism
+
+<!-- badges: start -->
+
+
+<!-- badges: end -->
+
+Three lines, four colors. 
+
+For this piece I create a small function to draw meandering paths, like those [My Kid Could Do](https://github.com/paezha/genuary2023/tree/master/2022-01-26_My-kid-could-have-done-that), to generate a horizon, and then one circle to generate a sun. The colors are drawn at random from the [{MetBrewer}](https://CRAN.R-project.org/package=MetBrewer) or [{MexBrewer}](https://paezha.github.io/MexBrewer/) palettes.
+
+For this piece I use the following packages:
+```{r setup}
+library(dplyr) # A Grammar of Data Manipulation
+library(ggforce) # Accelerating 'ggplot2'
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(glue) # Interpreted String Literals
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
+```
+
+## Generate a random seed
+
+```{r seed}
+seed_1 <- sample.int(100000000, 1)
+seed_2 <- sample.int(100000000, 1)
+```
+
+## Write a function to generate meandering paths
+
+This function takes a random seed and returns a meandering path from the sum of two sine functions. See [here](https://github.com/paezha/genuary2023/tree/master/2022-01-26_My-kid-could-have-done-that) for more detail about meander patterns.
+```{r}
+mounts <- function(seed){
+  set.seed(seed)
+  
+  # Number of sine curves for the pattern
+  n_sine <- 2
+  
+  # Calibrating the amplitude A is critical here to avoid waves that fold on themselves; values <= 1 seem to work well
+  A <- runif(n_sine, 0, 1.0) |> sort(decreasing = FALSE)
+  f <- runif(n_sine, 1, 5) |> sort(decreasing = TRUE)
+  phi <- runif(n_sine, 0, 2 * pi) |> sort(decreasing = FALSE)
+  
+  # Number of points
+  n_t <- 1000
+  
+  # Points
+  t <- seq(0, 2 * pi, length = n_t)
+  
+  # Initialize the starting point of the meander and an index 
+  x <- 0  
+  y <- 0
+  idx <- 0
+  
+  df <- data.frame(x = numeric(length = n_t),
+                   y = numeric(length = n_t),
+                   theta = numeric(length = n_t)) 
+  
+  # Here the angle is calculated and used to obtain the values of $x$ and $y$:
+  for(i in t){
+    idx <- idx + 1
+    theta <- 0
+    for(j in 1:n_sine){
+      theta <- theta + A[j] * sin(f[j] * t[idx] + phi[j])
+    }
+    df$x[idx] <- cos(theta)
+    df$y[idx] <- sin(theta)
+    df$theta[idx] <- theta
+  }
+  
+  # This is the discrete approximation of the integral of the path
+  df |>
+    mutate(x = x + cumsum(x),
+           y = y + cumsum(y))
+}
+
+```
+
+## Render
+
+Randomly select a color palette and colors:
+```{r}
+set.seed(seed_1)
+
+color_edition <- sample(c("Monotone", "MetBrewer", "MexBrewer"), 1)
+
+if(color_edition == "Monotone"){
+  col_palette_name <- "Monotone"
+  col_palette <- c(rep("white", 12), rep("gray10", 4), rep("gray40", 7))
+}else if(color_edition == "MetBrewer"){
+  col_palette_name <- sample(c("Cassatt1", "Cassatt2", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Manet", "Morgenstern", "OKeeffe1", "OKeeffe2", "Paquin", "Peru2", "Pissaro", "Tam", "Tiepolo", "Troy", "VanGogh1", "VanGogh3", "Veronese"), 1)
+  col_palette <- met.brewer(col_palette_name, n = 23)
+  # Randomly choose whether to reverse the palette
+  if(sample(c(TRUE, FALSE), 1)){
+    col_palette <- rev(col_palette)
+  }
+}else if(color_edition == "MexBrewer"){
+  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+  col_palette <- mex.brewer(col_palette_name, n = 23)
+  # Randomly choose whether to reverse the palette
+  if(sample(c(TRUE, FALSE), 1)){
+    col_palette <- rev(col_palette)
+  }
+}
+
+```
+
+
+```{r}
+set.seed(seed_2)
+
+col_1 <- col_palette[17 + sample.int(3, 1)]
+
+col_2 <- col_palette[13 + sample.int(3, 1)]
+
+ggplot() +
+  geom_circle(aes(x0 = runif(1, min = 0.15, 0.85),
+                  y0 = min(1.35, rlnorm(1, 0, 0.10)),
+                  r = runif(1, min = 0.1, 0.15)),
+              color = "white",
+              fill = sample(c("gold", "darkorange", "firebrick", "brown3"), 1)) +
+  geom_ribbon(data = mounts(seed_1) |>
+                mutate(x = (x - min(x))/(max(x) - min(x)),
+                       y = runif(1, 0.4, 0.6) + (y - min(y))/(runif(1, 3, 5) * (max(y) - min(y))),
+                       y = y - runif(1, 0.15, 0.25) * x),
+              aes(x = x,
+                  ymax = y,
+                  ymin = 0),
+              color = "white",
+              fill = col_1,
+              linewidth = 0.8) +
+  geom_ribbon(data = mounts(seed_2) |>
+                mutate(x = (x - min(x))/(max(x) - min(x)),
+                       y = runif(1, 0.10, 0.2) + (y - min(y))/(runif(1, 4, 6) * (max(y) - min(y))),
+                       y = y + runif(1, 0.15, 0.25) * x),
+              aes(x = x,
+                  ymax = y,
+                  ymin = 0),
+              color = "white",
+              fill = col_2,
+              linewidth = 0.8) +
+  scale_fill_identity() +
+  coord_equal(expand = FALSE) +
+  xlim(c(0,1)) + 
+  ylim(c(0,1.5)) + 
+  theme_void() +
+  theme(legend.position = "none",
+        panel.background = element_rect(color = "white",
+                                        fill = col_palette[sample.int(5, 1)],
+                                        linewidth = 1.5))
+
+ggsave(file = glue::glue("outputs/dunes-{col_palette_name}-{seed_1}-{seed_2}.png"),
+       w = 4,
+       h = 6,
+       units = "in")
+```
+
+```{r echo=FALSE, out.width="500px"}
+# Display image
+knitr::include_graphics(glue::glue("outputs/dunes-{col_palette_name}-{seed_1}-{seed_2}.png"))
+```
+

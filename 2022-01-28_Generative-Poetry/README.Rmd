@@ -57,62 +57,86 @@ n_glyphs <- length(l) # Number of letters/glyphs
 Create strokes:
 ```{r}
 
-strokes <- c("stroke1", "stroke2", "stroke3", "stroke4", "stroke5", "stroke6", "stroke7", "stroke8", "stroke9")
-n_strokes <- length(strokes)
+stroke1 <- data.frame(stroke_id = 1,
+                      stroke = "stroke1",
+                      rx = c(0.15, 0.15, 0.65, 0.65),
+                      ry = c(0.30, 0.70, 0.70, 0.20),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-strokes <- data.frame(stroke = factor(rep(strokes, each = 4)))
+stroke2 <- data.frame(stroke_id = 2,
+                      stroke = "stroke2",
+                      rx = c(0.1, 0.125, 0.15, 0.175),
+                      ry = c(0.75, 0.725, 0.7, 0.675),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-#n_strokes <- nlevels(strokes$stroke)
+stroke3 <- data.frame(stroke_id = 3,
+                      stroke = "stroke3",
+                      rx = c(0.1, 0.125, 0.15, 0.175),
+                      ry = c(0.25, 0.3, 0.35, 0.4),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-strokes$rx <- c(0.15, 0.15, 0.65, 0.65,
-                0.1, 0.125, 0.15, 0.175,
-                0.1, 0.125, 0.15, 0.175,
-                0.7, 0.725, 0.75, 0.775,
-                0.1, 0.4, 0.9, 0.7,
-                0.0, 1.0, 0.5, 0.0,
-                0.175, 1.2, 0.225, 0.25,
-                0.45, 0.475, 0.5, 0.53,
-                0.8, 0.773, 0.75, 0.72)
+stroke4 <- data.frame(stroke_id = 4,
+                      stroke = "stroke4",
+                      rx = c(0.7, 0.725, 0.75, 0.775),
+                      ry = c(0.8, 0.6, 0.4, 0.2),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-# Did not quite like what happens when I randomize the coordinates
-# strokes$rx <- c(runif(4, 0.15, 0.65) |> sort(),
-#                 runif(4, 0.1, 0.175) |> sort(),
-#                 runif(4, 0.1, 0.175) |> sort(),
-#                 runif(4, 0.7, 0.8),
-#                 runif(4, 0.1, 0.7),
-#                 runif(4, 0.0, 1))
+stroke5 <- data.frame(stroke_id = 5,
+                      stroke = "stroke5",
+                      rx = c(0.1, 0.4, 0.9, 0.7),
+                      ry = c(0.8, 0.9, 0.9, 0.8),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-strokes$ry <- c(0.30, 0.70, 0.70, 0.20,
-                0.75, 0.725, 0.7, 0.675,
-                0.25, 0.3, 0.35, 0.4,
-                0.8, 0.6, 0.4, 0.2,
-                0.8, 0.9, 0.9, 0.8,
-                0.5, 1.0, 0, 0.5,
-                0.8, 0.75, 0.7, 0.65,
-                0.85, 0.825, 0.8, 0.775,
-                0.8, 0.75, 0.7, 0.65)
+stroke6 <- data.frame(stroke_id = 6,
+                      stroke = "stroke6",
+                      rx = c(0.0, 1.0, 0.5, 0.0),
+                      ry = c(0.5, 1.0, 0, 0.5),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-# strokes$ry <- c(runif(4, 0.3, 0.7),
-#                 runif(4, 0.675, 0.75),
-#                 runif(4, 0.25, 0.4),
-#                 runif(4, 0.2, 0.8),
-#                 runif(4, 0.8, 0.9),
-#                 runif(4, 0.0, 1))
+stroke7 <- data.frame(stroke_id = 7,
+                      stroke = "stroke7",
+                      rx = c(0.175, 1.2, 0.225, 0.25),
+                      ry = c(0.8, 0.75, 0.7, 0.65),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
+stroke8 <- data.frame(stroke_id = 8,
+                      stroke = "stroke8",
+                      rx = c(0.45, 0.475, 0.5, 0.53),
+                      ry = c(0.85, 0.825, 0.8, 0.775),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-# stroke3 <- data.frame(theta = seq(3 * pi/2, 7 * pi/2, length = 10)) |>
-#   mutate(id = 1:n(),
-#          rx = 0.65 + 0.4 * (0.0065 * id) * cos(theta),
-#          ry = 0.65 + 0.4 * (0.0055 * id) * sin(theta),
-#          size = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9))
+stroke9 <- data.frame(stroke_id = 9,
+                      stroke = "stroke9",
+                      rx = c(0.8, 0.773, 0.75, 0.72),
+                      ry = c(0.8, 0.75, 0.7, 0.65),
+                      size = c(0.1, 0.3, 0.5, 0.7))
 
-strokes$size <- rep(c(0.1, 0.3, 0.5, 0.7), n_strokes)
+stroke10 <- data.frame(theta = seq(3 * pi/2, 7 * pi/2, length = 10)) |>
+  mutate(id = 1:n(),
+         stroke_id = 10,
+         stroke = "stroke10",
+         rx = 0.50 + (0.2 - 0.00010 * id) * cos(theta),
+         ry = 0.80 + (0.2 - 0.0043 * id) * sin(theta),
+         size = c(0.1, 0.15, 0.25, 0.30, 0.45, 0.52, 0.61, 0.68, 0.75, 0.80)) |>
+  select(-c(id, theta))
+
+strokes <- rbind(stroke1,
+                 stroke2,
+                 stroke3,
+                 stroke4,
+                 stroke5,
+                 stroke6,
+                 stroke7,
+                 stroke8,
+                 stroke9,
+                 stroke10
+                 )
 ```
 
 Plot individual strokes:
 ```{r}
 strokes |> 
-  mutate(x = as.numeric(stroke),
+  mutate(x = stroke_id,
          rx = rx + x) |>
   ggplot() +
   geom_bspline2(aes(x = rx, 
@@ -138,7 +162,7 @@ glyphs <-  data.frame(glyph = 1:n_glyphs) |>
                        glyph = 1:n_glyphs),
             by = "glyph") |>
   # Randomly choose number of strokes for each glyph
-  mutate(n_strokes = sample.int(2, n(), replace = TRUE) + sample.int(2, n(), replace = TRUE)) |>
+  mutate(n_strokes = sample.int(2, n(), replace = TRUE) + sample.int(3, n(), replace = TRUE)) |>
   # Uncount to have as many rows per glyph as number of strokes
   uncount(n_strokes) |>
   # Sample the strokes for the glyph
@@ -166,18 +190,16 @@ Generate a test "text" by choosing number of rows and number of columns:
 set.seed(seed)
 
 n_row <- 8
-n_col <- 6
+n_col <- 4
 
-text <- expand.grid(x = seq(0, n_row, 1), y = seq(n_col, 0, -1)) |>
+text <- expand.grid(x = seq(1, n_row, 1), y = seq(n_col, 1, -1)) |>
   # Generate id for the position of glyphs in the text
   mutate(id = 1:n(),
          # Sample glyph identifiers
-         glyph = sample.int(n_glyphs, 
-                            n(), 
-                            replace = TRUE)) |>
+         letter = l) |>
   # Join strokes corresponding to each glyph identifier
   left_join(glyphs,
-            by = "glyph") |> 
+            by = "letter") |> 
   # Randomize the positions and sizes of the strokes by a small amount
   mutate(rx = x + rx + runif(n(), 0.95, 1.05) + s * runif(n(), 0.01, 0.10),
          ry = y + ry + runif(n(), 0.95, 1.05),
@@ -191,13 +213,13 @@ text  |>
   geom_bspline2(aes(x = rx, 
                     y = ry, 
                     #color = type, 
-                    group = x, #try x and id
+                    group = id, #try x and id
                     linewidth = size),
                 n = 800, 
                 lineend = "round") + 
   # Add the identifier of the glyph for comparison
   geom_text(aes(x =  x + 1.5,
-                y = y + 1,
+                y = y + 1.1,
                 label = letter),
             color = "red", 
             size = 5) +
@@ -274,7 +296,7 @@ if(x_range > y_range){
   w = 7
   h = 7 * y_range/x_range
 }else{
-   # If taller than wider
+  # If taller than wider
   w = 7 * x_range/y_range
   h = 7
 }
@@ -301,9 +323,9 @@ atext |>
 
 # Save named image
 ggsave(glue::glue("outputs/asemic-poetry-{seed}.png"),
-height = h,
-width = w,
-units = "in")
+       height = h,
+       width = w,
+       units = "in")
 ```
 
 ```{r echo=FALSE, out.width="500px"}

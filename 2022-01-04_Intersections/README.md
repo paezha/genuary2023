@@ -7,8 +7,9 @@
 <!-- badges: end -->
 
 The prompt for Day 4 is pretty open ended: intersections. I thought of
-intersecting geometries using package [`sf`]() but instead I will
-intersect colors using regular geometries.
+intersecting geometries using package
+[`sf`](https://r-spatial.github.io/sf/) but instead I will intersect
+colors using regular geometries.
 
 For this piece I use the following packages:
 
@@ -26,7 +27,11 @@ library(ggforce) # Accelerating 'ggplot2'
 #> Loading required package: ggplot2
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art
 library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists 
+#> Registered S3 method overwritten by 'MexBrewer':
+#>   method        from     
+#>   print.palette MetBrewer
 ```
 
 ## Generate a random seed
@@ -89,15 +94,21 @@ For the final image, the regular polygons are “intersected” with the
 horizontal bands. The alternation of colors creates the illusion of
 vanishing intersections.
 
-Randomly select a color palette from package
-[`MexBrewer`](https://paezha.github.io/MexBrewer/):
+Randomly select a color palette from packages [{MetBrewer}]() or
+[{MexBrewer}](https://paezha.github.io/MexBrewer/):
 
 ``` r
 set.seed(seed)
 
-col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
 
-col_palette <- mex.brewer(col_palette_name, n = 10)
+if(color_edition == "MetBrewer"){
+  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+  col_palette <- met.brewer(col_palette_name, n = 10)
+}else{
+  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+  col_palette <- mex.brewer(col_palette_name, n = 10)
+}
 ```
 
 Generate image:
@@ -178,4 +189,4 @@ ggsave(filename = glue::glue("outputs/transchromation-{seed}.png"),
 #> Saving 7 x 5 in image
 ```
 
-<img src="outputs/transchromation-33098104.png" width="500px" />
+<img src="outputs/transchromation-5940746.png" width="500px" />

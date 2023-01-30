@@ -30,12 +30,12 @@ library(ggforce) # Accelerating 'ggplot2'
 #> Loading required package: ggplot2
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals
-library(MetBrewer)
-library(MexBrewer)
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Painters and Muralists
 #> Registered S3 method overwritten by 'MexBrewer':
 #>   method        from     
 #>   print.palette MetBrewer
-library(patchwork)
+library(patchwork) # The Composer of Plots
 library(stringr) # Simple, Consistent Wrappers for Common String Operations
 #library(tidyr) # Tidy Messy Data
 ```
@@ -244,4 +244,4 @@ ggsave(glue::glue("outputs/pluribus-unum-multorum-chaos-{seed}.png"),
 #> Saving 7 x 5 in image
 ```
 
-<img src="outputs/pluribus-unum-multorum-chaos-92246847.png" width="500px" />
+<img src="outputs/pluribus-unum-multorum-chaos-7328883.png" width="500px" />

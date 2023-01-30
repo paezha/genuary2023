@@ -333,7 +333,7 @@ ggplot() +
 
 ## Render 
 
-Randomly select a color palette from package [`MexBrewer`](https://paezha.github.io/MexBrewer/) or [`MetBrewer`]():
+Randomly select a color palette from package [{MexBrewer}](https://paezha.github.io/MexBrewer/) or [{MetBrewer}](https://CRAN.R-project.org/package=MetBrewer):
 ```{r}
 set.seed(seed)
 

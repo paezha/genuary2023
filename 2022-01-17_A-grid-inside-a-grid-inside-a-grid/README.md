@@ -74,7 +74,9 @@ df3 <- expand.grid(x = seq(0, 10, 1/9),
 # Render
 
 Randomly select a color palette from package
-[`MexBrewer`](https://paezha.github.io/MexBrewer/) or [`MetBrewer`]():
+[{MexBrewer}](https://CRAN.R-project.org/package=MexBrewer) or
+[{MetBrewer}](https://CRAN.R-project.org/package=MetBrewer). The color
+palette will consist of as many colors as columns in the grid:
 
 ``` r
 set.seed(seed)
@@ -87,6 +89,10 @@ if(color_edition == "MetBrewer"){
 }else{
   col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
   col_palette <- mex.brewer(col_palette_name)
+}
+
+if(sample(c(TRUE, FALSE), 1)){
+  col_palette <- rev(col_palette)
 }
 ```
 
@@ -125,9 +131,9 @@ ggplot() +
         panel.background = element_rect(color = NA,
                                         fill = set_colors[2]))
 
-ggsave(filename = glue::glue("outputs/grid-in-grid-{seed}.png"),
+ggsave(filename = glue::glue("outputs/grid-in-grid-{col_palette_name}-{seed}.png"),
        height = 7,
        width = 7)
 ```
 
-<img src="outputs/grid-in-grid-77961510.png" width="500px" />
+<img src="outputs/grid-in-grid-Alacena-86774845.png" width="500px" />

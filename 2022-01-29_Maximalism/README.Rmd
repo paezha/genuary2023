@@ -24,9 +24,9 @@ library(dplyr) # A Grammar of Data Manipulation
 library(ggforce) # Accelerating 'ggplot2'
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(glue) # Interpreted String Literals
-library(MetBrewer)
-library(MexBrewer)
-library(patchwork)
+library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art
+library(MexBrewer) # Color Palettes Inspired by Works of Mexican Painters and Muralists
+library(patchwork) # The Composer of Plots
 library(stringr) # Simple, Consistent Wrappers for Common String Operations
 #library(tidyr) # Tidy Messy Data
 ```
@@ -228,3 +228,4 @@ ggsave(glue::glue("outputs/pluribus-unum-multorum-chaos-{seed}.png"),
 # Display image
 knitr::include_graphics(glue::glue("outputs/pluribus-unum-multorum-chaos-{seed}.png"))
 ```
+
