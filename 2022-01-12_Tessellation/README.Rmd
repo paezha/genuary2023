@@ -35,8 +35,8 @@ library(sf) # Simple Features for R # Simple Features for R
 ## Generate a random seed
 
 ```{r}
-seed <- sample.int(100000000, 1)
-# seed <- 83744970
+#seed <- sample.int(100000000, 1)
+seed <- 92626956
 ```
 
 ## Bounding box

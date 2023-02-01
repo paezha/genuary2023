@@ -244,6 +244,17 @@ tanka <- data.frame(text = c("Visible colours",
   mutate(text = str_to_lower(text))
 ```
 
+```{r}
+tanka <- data.frame(text = c("Blossoms blooming", 
+                             "Yet making no seed are", 
+                             "The sea-god's", 
+                             "This world's", 
+                             "Garlanded", 
+                             "Whitecaps offshore.")) |>
+  # Convert all to lower case
+  mutate(text = str_to_lower(text))
+```
+
 Prepare text:
 ```{r}
 #find the maximum width of a line in number of characters

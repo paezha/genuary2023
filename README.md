@@ -217,3 +217,16 @@ yī)
 Three lines, three or four colors.
 
 <img src="2022-01-30_Minimalism/outputs/dunes-Maiz-37040510-50815853.png" width="500px" />
+
+## Day 31: [Break a previous image](https://github.com/paezha/genuary2023/tree/master/2022-01-31_Break-a-previous-image)
+
+For some reason I did quite some breaking during this Genuary, including
+[here](https://github.com/paezha/genuary2023/tree/master/2022-01-08_Signed-Distance-Functions),
+[here](https://github.com/paezha/genuary2023/tree/master/2022-01-12_Tessellation),
+and
+[here](https://github.com/paezha/genuary2023/tree/master/2022-01-29_Maximalism).
+For this prompt I break a previous image by “ubreaking” it. The image
+below is an unshattered version of the shattered voronoi polygons of Day
+12.
+
+<img src="2022-01-31_Break-a-previous-image/outputs/unsmashed-tessellations-5633245.png" width="500px" />
