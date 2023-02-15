@@ -35,14 +35,17 @@ library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
 #> Registered S3 method overwritten by 'MexBrewer':
 #>   method        from     
 #>   print.palette MetBrewer
-#library(tidyr)
+library(PrettyCols) # Pretty Colour Palettes
+#> Registered S3 method overwritten by 'PrettyCols':
+#>   method        from     
+#>   print.palette MexBrewer
 ```
 
 ## Generate a random seed
 
 ``` r
 seed <- sample.int(100000000, 1)
-#seed <- 8336784
+#seed <- 51285176
 ```
 
 ## Generate meandering path
@@ -179,20 +182,23 @@ Randomly select a color palette from package
 ``` r
 set.seed(seed)
 
-color_edition <- sample(c("Monotone", "MetBrewer", "MexBrewer"), 1)
+color_edition <- sample(c("Monotone", "MetBrewer", "MexBrewer", "PrettyCols"), 1)
 
 if(color_edition == "Monotone"){
+  col_palette_name <- "Monotone"
   col_palette <- c("white", "grey", "grey20", "black")
 }else if(color_edition == "MetBrewer"){
   col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
-  col_palette <- met.brewer(col_palette_name, n = 4)
+  col_palette <- met.brewer(col_palette_name)
+  col_palette <- sample(col_palette, 4)
 }else if(color_edition == "MexBrewer"){
   col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
-  col_palette <- mex.brewer(col_palette_name, n = 4)
-}
-
-if(sample(c(TRUE, FALSE), 1)){
-  col_palette <- rev(col_palette)
+  col_palette <- mex.brewer(col_palette_name)
+  col_palette <- sample(col_palette, 4)
+}else if(color_edition == "PrettyCols"){
+  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "Yellows", "Reds", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleGreens", "PurplePinks", "TealGreens", "PurpleYellows", "RedBlues", "Bold", "Dark", "Light", "Neon", "Relax", "Summer", "Autumn", "Winter", "Rainbow", "Beach", "Fun", "Sea", "Bright", "Relax", "Lively", "Joyful"), 1)
+  col_palette <- prettycols(col_palette_name)
+  col_palette <- sample(col_palette, 4)
 }
 ```
 
@@ -233,18 +239,18 @@ p <- ggplot(data = df) +
 if(x_range > y_range){
   # Save plot
   ggsave(p, 
-         filename = glue::glue("outputs/meandering-paths-{seed}.png"),
+         filename = glue::glue("outputs/meandering-paths-{col_palette_name}-{seed}.png"),
          width = 7)
 
 }else{
   ggsave(p,
-         filename = glue::glue("outputs/meandering-paths-{seed}.png"),
+         filename = glue::glue("outputs/meandering-paths-{col_palette_name}-{seed}.png"),
          height = 7)
 }
 #> Saving 7 x 7 in image
 ```
 
-<img src="outputs/meandering-paths-40763158.png" width="500px" />
+<img src="outputs/meandering-paths-Pinks-84599753.png" width="500px" />
 
 Some paths are interesting when plotted in polar coordinates, but some
 look like unattractive messes. This is the code to plot in polar
