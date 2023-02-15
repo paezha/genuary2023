@@ -1,267 +1,232 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-
-
-# My kid could have done that
+# genuary2023
 
 <!-- badges: start -->
-
-
 <!-- badges: end -->
 
-When my son Leo was little, he had an amazing drawing style. He made some monsters that were all spirals, spikes, huge bug-eyes, and lots and lots of skinny legs.
+This repository is for [genuary2023](https://genuary.art/), a month of
+generative art. A great opportunity to learn something new coding-wise,
+while indulging in some Rtistry.
 
-The sinuous meander paths of [David Chappell](doi.org/10.1080/17513472.2015.1092859) may have been inspired by the mathematics used to represent the geomorphology of streams, but to me many of the outputs look like the awesome monsters that my son used to draw as a child.
+## Day 1: [Perfect loop](2022-01-01_Perfect-loop/fiesta-t-74202868.gif)
 
-For this piece I use the following packages:
+For this I revisit a system that I designed a few months ago, called
+“Fiesta”.
 
-```r
-library(dplyr) # A Grammar of Data Manipulation
-library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
-library(glue) # Interpreted String Literals
-library(MetBrewer) # Color Palettes Inspired by Works at the Metropolitan Museum of Art 
-library(MexBrewer) # Color Palettes Inspired by Works of Mexican Muralists
-library(PrettyCols) # Pretty Colour Palettes
-```
+<img src="2022-01-01_Perfect-loop/outputs/fiesta-t-74202868.gif" width="500px" />
 
-## Generate a random seed
+## Day 2: [Made in ten minutes](https://github.com/paezha/genuary2023/tree/master/2022-01-02_Made-in-10-minutes)
 
+Coding Sol LeWitt’s wall drawing instructions in ten minutes.
 
-```r
-seed <- sample.int(100000000, 1)
-#seed <- 51285176
-```
+<img src="2022-01-02_Made-in-10-minutes/outputs/ten-minutes-658618151.png" width="500px" />
 
-## Generate meandering path
+## Day 3: [Glitch art](https://github.com/paezha/genuary2023/tree/master/2022-01-03_Glitch-Art)
 
-Select the number of sine curves for the path, and the parameters of the curves: the amplitude $A$, frequency $f$, and phase $phi$ ($\phi$).
+Glitching geometries.
 
-```r
-set.seed(seed)
+<img src="2022-01-03_Glitch-Art/outputs/glitched-voronoi-46709552.png" width="500px" />
 
-n_sine <- sample.int(4, 1)
+## Day 4: [Intersections](https://github.com/paezha/genuary2023/tree/master/2022-01-04_Intersections)
 
-A <- runif(n_sine, 0, 2 * pi)
-f <- runif(n_sine, 1, 5) |> sort(decreasing = TRUE)
-phi <- runif(n_sine, 0, 2 * pi)
-```
+Intersections of bands and polygons to create transchromations in polar
+and cartesian coordinates.
 
-Select the number of points to use to draw the path. Fewer points produce less curved, more angular paths.
+<img src="2022-01-04_Intersections/outputs/transchromation-10322117.png" width="500px" />
 
-```r
-# Number of times to repeat a full 2pi cycle
-T_f <- 1
-# Number of points
-n_t <- 12000
+<img src="2022-01-04_Intersections/outputs/transchromation-45039195.png" width="500px" />
 
-# Points
-t <- seq(0, T_f * 2 * pi, length = T_f * n_t)
-```
+## Day 5: [Debug view](https://github.com/paezha/genuary2023/tree/master/2022-01-05_Debug-View)
 
-Select the starting point of the meander and an index value. Use these to initialize a data frame. The angle ($theta$ or $\theta$) is the tangent of the meander at $t$ with respect to the x-axis (see Chappell, p. 63).
+Debugging a wave.
 
-```r
-# Starting point of the path
-x <- 0  
-y <- 0
-idx <- 0
+<img src="2022-01-05_Debug-View/outputs/debug-view.gif" width="500px" />
 
-df <- data.frame(x = numeric(length = T_f * n_t),
-                 y = numeric(length = T_f * n_t),
-                 theta = numeric(length = T_f * n_t)) 
-```
+## Day 6: [Steal like an artist](https://github.com/paezha/genuary2023/tree/master/2022-01-06_Steal-Like-An-Artist)
 
-The angle at $t$ is calculated as follows:
-$$
-\theta(t) = \mu_0 + \sum_{i = 1}^{n_sine}A_i\sin(2\pi f_it + \phi_i)
-$$
-That is the discrete approximation of the integral of the expression for the angle. The term $\mu_0$ is used to ensure that the patterns repeat on the horizontal axis but I have not figured out quite yet how to calculate it, so I will ignore it for the moment. 
+Stealing code from [George
+Savva](https://mastodon.online/@georgemsavva@genart.social/109622524704727827).
 
-The $x$ and $y$ coordinates of the path are a function of the angle and $t$:
-$$
-\begin{array}
-x(t) = x_0 + \int_0^t \cos(\theta(t))dt\\
-y(t) = y_0 + \int_0^t \sin(\theta(t))dt
-\end{array}
-$$
-The values of $x_0$ and $y_0$ are the coordinates of the starting point of the path.
+<img src="2022-01-06_Steal-Like-An-Artist/outputs/steal-like-an-artist.gif" width="500px" />
 
-In this chunk of code the angle is calculated and used to obtain the values of $x$ and $y$:
+## Day 7: [Sample a color palette](https://github.com/paezha/genuary2023/tree/master/2022-01-07_Sample-a-color-palette)
 
-```r
-for(i in t){
-  idx <- idx + 1
-  theta <- 0
-  for(j in 1:n_sine){
-    theta <- theta + A[j] * sin(f[j] * t[idx] + phi[j])
-  }
-  df$x[idx] <- cos(theta)
-  df$y[idx] <- sin(theta)
-  df$theta[idx] <- theta
-}
-```
+Truchet mosaic with colors sampled from Studio Ghibli’s Laputa: Castle
+in the Sky provided by package
+[{ghibli}](https://ewenme.github.io/ghibli/).
 
-Next is the discrete approximation of the integral:
+<img src="2022-01-07_Sample-a-color-palette/outputs/truchet-ghibli-48318679.png" width="500px" />
 
-```r
-df <- df |>
-  mutate(x = x + cumsum(x),
-         y = y + cumsum(y))
-```
+## Day 8: [Signed distance functions](https://github.com/paezha/genuary2023/tree/master/2022-01-08_Signed-Distance-Functions)
 
-To decorate the path strokes are drawn. The length of the strokes depends on the range covered by the path. This value is randomly chosen to be between 5% and 15% of the maximum extent in $x$ or $y$
+Colorful signed distance functions of three split regular polygons.
 
-```r
-# Extent of the path in x and y is the difference between the max and min coordinates
-x_range <- max(df$x) - min(df$x)
-y_range <- max(df$y) - min(df$y)
+<img src="2022-01-08_Signed-Distance-Functions/outputs/sdf-88696514.png" width="500px" />
 
-# Length of stroke is between 5 and 15% of the maximum range
-l <- max(x_range, y_range)
-l <- runif(1, 0.05, 0.15) * l
+## Day 9: [Plants](https://github.com/paezha/genuary2023/tree/master/2022-01-09_Plants)
 
-# The length is modified by a random factor to avoid an overly uniform aspect
-l_r <- runif(nrow(df), 0.50, 1.50)
-```
+[Pierre Casadebaig’s](https://casadebaig.netlify.app/) system for
+generative plants.
 
-Having chosen the length of the strokes, the coordinates of the endpoints are calculated. There are several ways of doing this, for example, strokes that are tangent to the curve, or strokes that are perpendicular to the tangent. Each gives a characteristic look. In addition to randomizing the lenght of each stroke, the angle is also randomized: 
+<img src="2022-01-09_Plants/outputs/plant-24912549.png" width="500px" />
 
-```r
-# Perpendicular to the tangent
-df <- df |>
-  mutate(xstart =  x + l_r * l * sin(theta * runif(n(), 0.95, 1.05)),
-         ystart = y - l_r * l * cos(theta * runif(n(), 0.95, 1.05)),
-         xend = x - l_r * l * sin(theta * runif(n(), 0.95, 1.05)),
-         yend = y + l_r * l * cos(theta * runif(n(), 0.95, 1.05)),
-         lw = sqrt((x - mean(x))^2 + (y - mean(x))^2))
+## Day 10: [Generative music](https://github.com/paezha/genuary2023/tree/master/2022-01-10_Generative-music)
 
-# Parallel to the tangent
-# df <- df |>
-#   mutate(xstart =  x - l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
-#          ystart = y - l_r * l * cos(theta * runif(n(), 0.97, 1.03)),
-#          xend = x + l_r * l * sin(theta * runif(n(), 0.97, 1.03)),
-#          yend = y + l_r * l * cos(theta * runif(n(), 0.97, 1.03)))
-```
+The colors of the leaves are chosen based on the notes of Bach’s [Crab
+Canon](https://www.youtube.com/watch?v=36ykl2tJwZM)
 
-## Render
+<img src="2022-01-10_Generative-music/outputs/crab-plant-775875665.png" width="500px" />
 
-Randomly select a color palette from package [`MexBrewer`](https://CRAN.R-project.org/package=MexBrewer) or [`MetBrewer`](https://CRAN.R-project.org/package=MetBrewer).
+## Day 11: [Suprematism: Supreme walks](https://github.com/paezha/genuary2023/tree/master/2022-01-11_Suprematism)
 
-```r
-set.seed(seed)
+Geometry and limited use of color may not be sufficient to
+algorithmically recreate the supremacy of “pure artistic feeling”. Or
+maybe they are. Who am I to say?
 
-color_edition <- sample(c("Monotone", "MetBrewer", "MexBrewer", "PrettyCols"), 1)
+<img src="2022-01-11_Suprematism/outputs/supreme-walks-56336370.png" width="500px" />
 
-if(color_edition == "Monotone"){
-  col_palette_name <- "Monotone"
-  col_palette <- c("white", "grey", "grey20", "black")
-}else if(color_edition == "MetBrewer"){
-  col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
-  col_palette <- met.brewer(col_palette_name)
-  col_palette <- sample(col_palette, 4)
-}else if(color_edition == "MexBrewer"){
-  col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
-  col_palette <- mex.brewer(col_palette_name)
-  col_palette <- sample(col_palette, 4)
-}else if(color_edition == "PrettyCols"){
-  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "Yellows", "Reds", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleGreens", "PurplePinks", "TealGreens", "PurpleYellows", "RedBlues", "Bold", "Dark", "Light", "Neon", "Relax", "Summer", "Autumn", "Winter", "Rainbow", "Beach", "Fun", "Sea", "Bright", "Relax", "Lively", "Joyful"), 1)
-  col_palette <- prettycols(col_palette_name)
-  col_palette <- sample(col_palette, 4)
-}
-```
+## Day 12: [Tessellation](https://github.com/paezha/genuary2023/tree/master/2022-01-12_Tessellation)
 
-Plot:
+Smashing Voronoi.
 
-```r
-p <- ggplot(data = df) + 
-  geom_segment(aes(x = x, y = y,
-                   xend = xstart, yend = ystart,
-                   #alpha = theta
-  ),
-  alpha = 0.2,
-  color = col_palette[1],
-  #color = "gray",
-  linewidth = 0) +
-  geom_segment(aes(x = x, y = y,
-                   xend = xend, yend = yend,
-                   #alpha = theta
-  ),
-  alpha = 0.2,
-  color = col_palette[4],
-  linewidth = 0) +
-  geom_path(aes(x = x,
-                y = y,
-                linewidth = lw),
-            color = col_palette[2]
-            #color = "white"
-  ) +
-  scale_linewidth(range = c(0.2, 1.5)) +
-  coord_equal() +
-  theme_void() +
-  theme(legend.position = "none",
-        plot.background = element_rect(color = NA,
-                                       fill = col_palette[3]
-                                       #fill = "gray20"
-  ))
+<img src="2022-01-12_Tessellation/outputs/smashing-tessellations-7914644.png" width="500px" />
 
-if(x_range > y_range){
-  # Save plot
-  ggsave(p, 
-         filename = glue::glue("outputs/meandering-paths-{col_palette_name}-{seed}.png"),
-         width = 7)
+## Day 13: [Something I’ve always wanted to learn](https://paezha.github.io/MexBrewer/)
 
-}else{
-  ggsave(p,
-         filename = glue::glue("outputs/meandering-paths-{col_palette_name}-{seed}.png"),
-         height = 7)
-}
-#> Saving 7 x 7 in image
-```
+How to submit an `R` package to CRAN. Today I submitted my
+[{MexBrewer}](https://paezha.github.io/MexBrewer/) package to CRAN, and
+now I am waiting the results of the checks.
 
-<img src="outputs/meandering-paths-Isfahan1-18626052.png" alt="plot of chunk unnamed-chunk-11" width="500px" />
+<img src="2022-01-13_Something-you’ve-always-wanted-to-learn/MexBrewer.png" width="500px" />
 
-Some paths are interesting when plotted in polar coordinates, but some look like unattractive messes. This is the code to plot in polar coordinates if desired. 
+UPDATE: Yay!
 
-```r
-ggplot(data = df) + 
-  geom_segment(aes(x = x, y = y,
-                   xend = xstart, yend = ystart,
-                   #alpha = theta
-  ),
-  alpha = 0.25,
-  color = col_palette[2],
-  #color = "gray",
-  linewidth = 0) +
-  geom_segment(aes(x = x, y = y,
-                   xend = xend, yend = yend,
-                   #alpha = theta
-  ),
-  alpha = 0.25,
-  color = "black",
-  linewidth = 0) +
-  geom_path(aes(x = x,
-                y = y),
-            color = col_palette[1]
-            #color = "white"
-              ) +
-  coord_polar() +
-  theme_void() +
-  theme(plot.background = element_rect(color = NA,
-                                       fill = col_palette[3]
-                                       #fill = "gray20"
-                                         ))
+<https://CRAN.R-project.org/package=MexBrewer>
 
-# Save plot
-  ggsave(filename = glue::glue("outputs/meandering-paths-polar-{seed}.png"),
-         height = 7,
-         width = 7)
-```
+## Day 14: [Asemic](https://github.com/paezha/genuary2023/tree/master/2022-01-14_Aesemic)
 
+Asemic haiku.
 
+<img src="2022-01-14_Aesemic/outputs/asemic-haiku-lr-31693569.png" width="500px" />
 
+## Day 15: [Sine waves](https://github.com/paezha/genuary2023/tree/master/2022-01-15_Sine-waves)
 
+Sinescape.
 
+<img src="2022-01-15_Sine-waves/outputs/sine-wave.png" width="500px" />
+
+## Day 16: [Reflection of a reflection]()
+
+WIP.
+
+## Day 17: [Grid in a grid](https://github.com/paezha/genuary2023/tree/master/2022-01-17_A-grid-inside-a-grid-inside-a-grid)
+
+A grid inside a grid…
+
+<img src="2022-01-17_A-grid-inside-a-grid-inside-a-grid/outputs/grid-in-grid-Maiz-65863013.png" width="500px" />
+
+## Day 18: [Definitely not a grid in a grid]()
+
+WIP
+
+## Day 19: [Black and white](https://github.com/paezha/genuary2023/tree/master/2022-01-19_Black-and-white)
+
+Matching Black & White and White & Black images.
+
+<img src="2022-01-19_Black-and-white/outputs/cubescape-b-w-44498798.png" width="500px" />
+
+<img src="2022-01-19_Black-and-white/outputs/cubescape-w-b-44498798.png" width="500px" />
+
+## Day 20: [Art Deco]()
+
+WIP
+
+## Day 21: [Persian rug]()
+
+WIP
+
+## Day 22: [Shadows](https://github.com/paezha/genuary2023/tree/master/2022-01-22_Shadows)
+
+Rayrendering shadows.
+
+<img src="2022-01-22_Shadows/outputs/shadows-37843230.png" width="500px" />
+
+## Day 23: [More Moiré](https://github.com/paezha/genuary2023/tree/master/2022-01-23_More-Moire)
+
+Patterns of interference between three rotating spirals.
+
+<img src="2022-01-23_More-Moire/outputs/more-moire-51730484.gif" width="500px" />
+
+## Day 24: [Textile](https://github.com/paezha/genuary2023/tree/master/2022-01-24_Textile)
+
+Here I use a form of [dithering](https://en.wikipedia.org/wiki/Dither)
+to give an image the aspect of woven art.
+
+<img src="2022-01-24_Textile/outputs/calaverita-2-textile-42988148.png" width="500px" />
+
+## Day 25: [Yayoi Kusama](https://github.com/paezha/genuary2023/tree/master/2022-01-25_Yayoi-Kusama)
+
+Simple features meets circle packing meets rayrendering meets Yayoi
+Kusama.
+
+<img src="2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-18751918.png" width="500px" />
+
+## Day 26: [My kid could have done that](https://github.com/paezha/genuary2023/tree/master/2022-01-26_My-kid-could-have-done-that)
+
+Sinuous meandering patterns that resemble the monsters that my son used
+to draw when he was little.
+
+<img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-18919051.png" width="500px" />
+
+## Day 27: [Hilma af Klint](https://github.com/paezha/genuary2023/tree/master/2022-01-27_Hilma-Af-Klint)
+
+Inspired by The Swan.
+
+<img src="2022-01-27_Hilma-Af-Klint/outputs/hilda-af-klint-Casita1-26193853.png" width="500px" />
+
+## Day 28: [Generative poetry](https://github.com/paezha/genuary2023/tree/master/2022-01-28_Generative-Poetry)
+
+A poem by [Lady Ono no
+Komachi](https://en.wikipedia.org/wiki/Ono_no_Komachi) (c. 825 - c. 900)
+written in randomly generated asemic glyphs:
+
+> Visible colours  
+> (Invisible passions)  
+> Fade from  
+> This world’s  
+> Human hearts  
+> And flowers.
+
+<img src="2022-01-28_Generative-Poetry/outputs/asemic-poetry-70563873.png" width="500px" />
+
+## Day 29: [Maximalism: *Pluribus unum Multorum chaos*](https://github.com/paezha/genuary2023/tree/master/2022-01-29_Maximalism)
+
+For this prompt I looked into Chinese Maximalism, and the work of the
+work of [Xu Hongming](https://www.wikiart.org/en/xu-hongming). This
+piece (that I call *Pluribus unum Multorum chaos*) is inspired by
+Hongming’s [“Human Condition
+One”](https://www.wikiart.org/en/xu-hongming/-1994) (人态一 : Rén tài
+yī)
+
+<img src="2022-01-29_Maximalism/outputs/pluribus-unum-multorum-chaos-20812715.png" width="500px" />
+
+## Day 30: [Minimalism](https://github.com/paezha/genuary2023/tree/master/2022-01-30_Minimalism)
+
+Three lines, three or four colors.
+
+<img src="2022-01-30_Minimalism/outputs/dunes-Maiz-37040510-50815853.png" width="500px" />
+
+## Day 31: [Break a previous image](https://github.com/paezha/genuary2023/tree/master/2022-01-31_Break-a-previous-image)
+
+For some reason I did quite some breaking during this Genuary, including
+[here](https://github.com/paezha/genuary2023/tree/master/2022-01-08_Signed-Distance-Functions),
+[here](https://github.com/paezha/genuary2023/tree/master/2022-01-12_Tessellation),
+and
+[here](https://github.com/paezha/genuary2023/tree/master/2022-01-29_Maximalism).
+For this prompt I break a previous image by “ubreaking” it. The image
+below is an unshattered version of the shattered voronoi polygons of Day
+12.
+
+<img src="2022-01-31_Break-a-previous-image/outputs/unsmashed-tessellations-5633245.png" width="500px" />
