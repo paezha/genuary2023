@@ -168,7 +168,6 @@ if(color_edition == "Monotone"){
   col_palette <- prettycols(col_palette_name)
   col_palette <- sample(col_palette, 4)
 }
-
 ```
 
 Plot:

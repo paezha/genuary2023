@@ -222,7 +222,7 @@ if(x_range > y_range){
 #> Saving 7 x 7 in image
 ```
 
-<img src="outputs/meandering-paths-Pinks-69259626.png" alt="plot of chunk unnamed-chunk-11" width="500px" />
+<img src="outputs/meandering-paths-Isfahan1-18626052.png" alt="plot of chunk unnamed-chunk-11" width="500px" />
 
 Some paths are interesting when plotted in polar coordinates, but some look like unattractive messes. This is the code to plot in polar coordinates if desired. 
 

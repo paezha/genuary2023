@@ -247,10 +247,10 @@ if(x_range > y_range){
          filename = glue::glue("outputs/meandering-paths-{col_palette_name}-{seed}.png"),
          height = 7)
 }
-#> Saving 7 x 7 in image
+#> Saving 7 x 5 in image
 ```
 
-<img src="outputs/meandering-paths-Pinks-84599753.png" width="500px" />
+<img src="outputs/meandering-paths-Monotone-87815720.png" width="500px" />
 
 Some paths are interesting when plotted in polar coordinates, but some
 look like unattractive messes. This is the code to plot in polar
