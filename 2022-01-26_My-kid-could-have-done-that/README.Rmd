@@ -164,7 +164,7 @@ if(color_edition == "Monotone"){
   col_palette <- mex.brewer(col_palette_name)
   col_palette <- sample(col_palette, 4)
 }else if(color_edition == "PrettyCols"){
-  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "Yellows", "Reds", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleGreens", "PurplePinks", "TealGreens", "PurpleYellows", "RedBlues", "Bold", "Dark", "Light", "Neon", "Relax", "Summer", "Autumn", "Winter", "Rainbow", "Beach", "Fun", "Sea", "Bright", "Relax", "Lively", "Joyful"), 1)
+  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleTangerine", "PurplePinks", "TealGreens", "Bold", "Dark", "Light", "Neon", "Relax", "Autumn", "Winter", "Rainbow"), 1)
   col_palette <- prettycols(col_palette_name)
   col_palette <- sample(col_palette, 4)
 }

@@ -178,7 +178,11 @@ Kusama.
 Sinuous meandering patterns that resemble the monsters that my son used
 to draw when he was little.
 
-<img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-18919051.png" width="500px" />
+UPDATED to use color palettes from [Nicola
+Rennie’s](https://github.com/nrennie)
+[{PrettyCols}](https://nrennie.github.io/PrettyCols/) package.
+
+<img src="2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-Bright-43039903.png" width="500px" />
 
 ## Day 27: [Hilma af Klint](https://github.com/paezha/genuary2023/tree/master/2022-01-27_Hilma-Af-Klint)
 
@@ -229,4 +233,8 @@ For this prompt I break a previous image by “ubreaking” it. The image
 below is an unshattered version of the shattered voronoi polygons of Day
 12.
 
-<img src="2022-01-31_Break-a-previous-image/outputs/unsmashed-tessellations-5633245.png" width="500px" />
+UPDATED to use color palettes from [Nicola
+Rennie’s](https://github.com/nrennie)
+[{PrettyCols}](https://nrennie.github.io/PrettyCols/) package.
+
+<img src="2022-01-31_Break-a-previous-image/outputs/unsmashed-tessellations-TangerineBlues-73279390.png" width="500px" />

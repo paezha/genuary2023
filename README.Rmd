@@ -264,9 +264,11 @@ knitr::include_graphics("2022-01-25_Yayoi-Kusama/outputs/Glossy-Redon-One-187519
 
 Sinuous meandering patterns that resemble the monsters that my son used to draw when he was little.
 
+UPDATED to use color palettes from [Nicola Rennie's](https://github.com/nrennie) [{PrettyCols}](https://nrennie.github.io/PrettyCols/) package.
+
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics("2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-18919051.png")
+knitr::include_graphics("2022-01-26_My-kid-could-have-done-that/outputs/meandering-paths-Bright-43039903.png")
 ```
 
 ## Day 27: [Hilma af Klint](https://github.com/paezha/genuary2023/tree/master/2022-01-27_Hilma-Af-Klint)
@@ -317,9 +319,11 @@ knitr::include_graphics("2022-01-30_Minimalism/outputs/dunes-Maiz-37040510-50815
 
 For some reason I did quite some breaking during this Genuary, including [here](https://github.com/paezha/genuary2023/tree/master/2022-01-08_Signed-Distance-Functions), [here](https://github.com/paezha/genuary2023/tree/master/2022-01-12_Tessellation), and [here](https://github.com/paezha/genuary2023/tree/master/2022-01-29_Maximalism). For this prompt I break a previous image by "ubreaking" it. The image below is an unshattered version of the shattered voronoi polygons of Day 12.
 
+UPDATED to use color palettes from [Nicola Rennie's](https://github.com/nrennie) [{PrettyCols}](https://nrennie.github.io/PrettyCols/) package.
+
 ```{r echo=FALSE, out.width="500px"}
 # Display image
-knitr::include_graphics("2022-01-31_Break-a-previous-image/outputs/unsmashed-tessellations-5633245.png")
+knitr::include_graphics("2022-01-31_Break-a-previous-image/outputs/unsmashed-tessellations-TangerineBlues-73279390.png")
 ```
 
 
