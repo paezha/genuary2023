@@ -28,6 +28,10 @@ library(MexBrewer) # Color Palettes Inspired by Works of Mexican Painters and Mu
 #> Registered S3 method overwritten by 'MexBrewer':
 #>   method        from     
 #>   print.palette MetBrewer
+library(PrettyCols) # Pretty Colour Palettes
+#> Registered S3 method overwritten by 'PrettyCols':
+#>   method        from     
+#>   print.palette MexBrewer
 ```
 
 ## Generate a random seed
@@ -81,15 +85,30 @@ palette will consist of as many colors as columns in the grid:
 ``` r
 set.seed(seed)
 
-color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
+# color_edition <- sample(c("MetBrewer", "MexBrewer"), 1)
+# 
+# if(color_edition == "MetBrewer"){
+#   col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
+#   col_palette <- met.brewer(col_palette_name)
+# }else{
+#   col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
+#   col_palette <- mex.brewer(col_palette_name)
+# }
+# 
+
+color_edition <- sample(c("MetBrewer", "MexBrewer", "PrettyCols"), 1)
 
 if(color_edition == "MetBrewer"){
   col_palette_name <- sample(c("Archambault", "Austria", "Benedictus", "Cassatt1", "Cassatt2", "Cross", "Degas", "Demuth", "Derain", "Egypt", "Gauguin", "Greek", "Hiroshige", "Hokusai1", "Hokusai2", "Hokusai3", "Homer1", "Homer2", "Ingres", "Isfahan1", "Isfahan2", "Java", "Johnson", "Juarez", "Kandinsky", "Klimt", "Lakota", "Manet", "Moreau", "Morgenstern", "Nattier", "Navajo", "NewKingdom", "Nizami", "OKeeffe1", "OKeeffe2", "Paquin", "Peru1", "Peru2", "Pillement", "Pissaro", "Redon", "Renoir", "Signac", "Tam", "Tara", "Thomas", "Tiepolo", "Troy", "Tsimshian", "VanGogh1", "VanGogh2", "VanGogh3", "Veronese", "Wissing"), 1)
   col_palette <- met.brewer(col_palette_name)
-}else{
+}else if(color_edition == "MexBrewer"){
   col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
   col_palette <- mex.brewer(col_palette_name)
+}else if(color_edition == "PrettyCols"){
+  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleTangerine", "PurplePinks", "TealGreens", "Bold", "Dark", "Light", "Neon", "Relax", "Autumn", "Winter", "Rainbow"), 1)
+  col_palette <- prettycols(col_palette_name)
 }
+
 
 if(sample(c(TRUE, FALSE), 1)){
   col_palette <- rev(col_palette)
@@ -136,4 +155,4 @@ ggsave(filename = glue::glue("outputs/grid-in-grid-{col_palette_name}-{seed}.png
        width = 7)
 ```
 
-<img src="outputs/grid-in-grid-Alacena-86774845.png" width="500px" />
+<img src="outputs/grid-in-grid-Alacena-40317848.png" width="500px" />
