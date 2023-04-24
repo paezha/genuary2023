@@ -20,6 +20,13 @@ knitr::opts_chunk$set(
 
 When my son Leo was little, he had an amazing drawing style. He made some monsters that were all spirals, spikes, huge bug-eyes, and lots and lots of skinny legs.
 
+```{r, figures-side, fig.show="hold", out.width="30%"}
+par(mar = c(4, 4, .1, .1))
+knitr::include_graphics(glue::glue("inputs/leo-01.jpg"))
+knitr::include_graphics(glue::glue("inputs/leo-02.jpg"))
+knitr::include_graphics(glue::glue("inputs/leo-03.jpg"))
+```
+
 The sinuous meander paths of [David Chappell](doi.org/10.1080/17513472.2015.1092859) may have been inspired by the mathematics used to represent the geomorphology of streams, but to me many of the outputs look like the awesome monsters that my son used to draw as a child.
 
 For this piece I use the following packages:

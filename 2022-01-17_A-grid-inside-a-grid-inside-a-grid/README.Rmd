@@ -93,7 +93,7 @@ if(color_edition == "MetBrewer"){
   col_palette_name <- sample(c("Alacena", "Atentado", "Aurora", "Casita1", "Casita2", "Casita3", "Concha", "Frida", "Huida", "Maiz", "Ofrenda", "Revolucion", "Ronda", "Taurus1", "Taurus2", "Tierra", "Vendedora"), 1)
   col_palette <- mex.brewer(col_palette_name)
 }else if(color_edition == "PrettyCols"){
-  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleTangerine", "PurplePinks", "TealGreens", "Bold", "Dark", "Light", "Neon", "Relax", "Autumn", "Winter", "Rainbow"), 1)
+  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurplePinks", "TealGreens", "Bold", "Dark", "Light", "Neon", "Relax", "Autumn", "Winter", "Rainbow"), 1)
   col_palette <- prettycols(col_palette_name)
 }
 

@@ -10,6 +10,15 @@ When my son Leo was little, he had an amazing drawing style. He made
 some monsters that were all spirals, spikes, huge bug-eyes, and lots and
 lots of skinny legs.
 
+``` r
+par(mar = c(4, 4, .1, .1))
+knitr::include_graphics(glue::glue("inputs/leo-01.jpg"))
+knitr::include_graphics(glue::glue("inputs/leo-02.jpg"))
+knitr::include_graphics(glue::glue("inputs/leo-03.jpg"))
+```
+
+<img src="inputs/leo-01.jpg" width="30%" /><img src="inputs/leo-02.jpg" width="30%" /><img src="inputs/leo-03.jpg" width="30%" />
+
 The sinuous meander paths of [David
 Chappell](doi.org/10.1080/17513472.2015.1092859) may have been inspired
 by the mathematics used to represent the geomorphology of streams, but
@@ -196,7 +205,7 @@ if(color_edition == "Monotone"){
   col_palette <- mex.brewer(col_palette_name)
   col_palette <- sample(col_palette, 4)
 }else if(color_edition == "PrettyCols"){
-  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "Yellows", "Reds", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleGreens", "PurplePinks", "TealGreens", "PurpleYellows", "RedBlues", "Bold", "Dark", "Light", "Neon", "Relax", "Summer", "Autumn", "Winter", "Rainbow", "Beach", "Fun", "Sea", "Bright", "Relax", "Lively", "Joyful"), 1)
+  col_palette_name <- sample(c("Blues", "Purples", "Tangerines", "Greens", "Pinks", "Teals", "PurpleGreens", "PinkGreens", "TangerineBlues", "PurpleTangerine", "PurplePinks", "TealGreens", "Bold", "Dark", "Light", "Neon", "Relax", "Autumn", "Winter", "Rainbow"), 1)
   col_palette <- prettycols(col_palette_name)
   col_palette <- sample(col_palette, 4)
 }
@@ -247,10 +256,10 @@ if(x_range > y_range){
          filename = glue::glue("outputs/meandering-paths-{col_palette_name}-{seed}.png"),
          height = 7)
 }
-#> Saving 7 x 5 in image
+#> Saving 7 x 7 in image
 ```
 
-<img src="outputs/meandering-paths-Monotone-87815720.png" width="500px" />
+<img src="outputs/meandering-paths-PurplePinks-155286.png" width="500px" />
 
 Some paths are interesting when plotted in polar coordinates, but some
 look like unattractive messes. This is the code to plot in polar
